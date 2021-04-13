@@ -1,0 +1,79 @@
+mixin input(classname, name, placeholder, type = 'text', opt = false)
+  case type
+    when 'file'
+      label(class="custom-input-file sort-ignore", type="file", for=name) +
+        img(alt="", class="hidden")
+        input(name=name, id=name, class=opt ? classname + ' optional input-file' : classname + ' input-file', type=type, accept="image/jpeg,image/jpeg")
+        span.typcn.icon-close.typcn-times(class="hidden")
+    when 'search'
+      label(for=name + "_input", class=classname + "search_button")
+        input(aria-label=name, placeholder=placeholder, id=name + "_input", type='search', autocomplete=true, results=5)
+        button(id=name + '_button')
+          span.icon-search
+    when 'datetime-local'
+      label(for=name)
+        span= placeholder
+        input(name=name, id=name, class=opt ? classname + ' optional' : classname, type=type, max= new Date().toISOString().substring(0, 16))
+    when 'place'
+      div.compleshon.compleshon-address
+        label(for=name, class='map_place')
+          span= placeholder
+          input(autocomplete="off" name=name, id=name, class=opt ? classname + ' optional' : classname, type='text').address_input
+    when 'tel'
+      label(for=name)
+        span= placeholder
+        input(name=name, id=name, class=opt ? classname + ' optional' : classname, type=type, pattern='[0-9]{2}-[0-9]{4}-[0-9]{4}' placeholder="+54 11 1234-5678")
+    when 'details'
+      label(for=name)
+        span= placeholder
+        textarea(name=name, id=name, class=opt ? classname + ' optional' : classname, type=type)
+    default
+      label(for=name)
+        span= placeholder
+        input(name=name, id=name, class=opt ? classname + ' optional' : classname, type=type)
+
+
+mixin _input(config, opt = false)
+  case config.type
+    when 'file'
+      label(class="custom-input-file sort-ignore", type="file", for=config.name) +
+        img(alt="", class="hidden" oncontextmenu="return false;")
+        input(name=config.name, id=config.name, class=config.opt ? config.classname + ' optional input-file' : config.classname + ' input-file', type=config.type)
+        span.typcn.typcn-times(class="hidden")
+    when 'search'
+      label(for=config.name + "_input", class=config.classname + "search_button")
+        input(value=(config.value != undefined) ? config.value : null, placeholder=config.placeholder, id=config.name + "_input", type='search', autocomplete=true, results=5)
+        button(id=config.name + '_button')
+          span.icon-search
+    when 'datetime-local'
+      label(for=config.name)= config.placeholder
+        input(value=(config.value != undefined) ? config.value : null, name=config.name, id=config.name, class=opt ? config.classname + ' optional' : config.classname, type=config.type, max= new Date().toISOString().substring(0, 16))
+    when 'place'
+      div.compleshon.compleshon-address
+        label(for=config.name, class='map_place')= config.placeholder
+          input(value=(config.value != undefined) ? config.value : null, data-coordinates=config.coordinates, name=config.name, id=config.name, class=opt ? config.classname + ' optional' : config.classname, type='text').address_input
+        div.compleshon-suggestions
+    when 'tel'
+      label(for=config.name)= config.placeholder
+        input(value=(config.value != undefined) ? config.value : null, name=config.name, id=config.name, class=opt ? config.classname + ' optional' : config.classname, type=config.type, pattern='[0-9]{2}-[0-9]{4}-[0-9]{4}')
+    default
+      label(for=configname)= config.placeholder
+        input(value=(config.value != undefined) ? config.value : null, name=config.name, id=config.name, class=opt ? config.classname + ' optional' : config.classname, type=(config.type != undefined) ? config.type : 'text')
+
+
+mixin select(name, options, placeholder, classname, opt, label = true)
+  if (label == true)
+    label(for=name)= placeholder
+  select(name=name, id=name, class=opt ? classname + ' optional' : classname)
+    each option in options
+      option(value=option)= option
+
+mixin form(entries, formname)
+  for entry in entries
+    if (entry.dom == null || entry.dom == 'input')
+      +input(entry.name, entry.type, entry.placeholder, formname, entry.opt || false)
+    else
+      case entry.dom
+        when 'select'
+          +select(entry.name, entry.options || {}, entry.placeholder, formname, entry.opt || false)
+  button#send_data Enviar

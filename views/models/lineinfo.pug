@@ -1,0 +1,9 @@
+mixin lineinfo(type, value, twoline = false)
+    if twoline == true
+        .twolines.wantedpetinfo
+            h4= type
+            p= value
+    else
+        .oneline.wantedpetinfo
+            h4= type
+            p= value

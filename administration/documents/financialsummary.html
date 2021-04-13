@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap">
+  
+  <style>
+    * { margin: 0; padding: 0; font-family: 'Rubik'; }
+    html { width: 21cm; /* height: 29.7cm; */ }
+    #body { margin: 1.5cm; color: #131313 }
+
+    header { display: flex; flex-direction: row; padding: 20px 1.5cm; background-color: rgb(255, 196, 129); height: 150px; align-items: center; }
+    header div { display: flex; flex-direction: column; justify-content: center; margin-left: 30px; padding-left: 30px; border-left: 1px solid #131313; height: 100%; }
+    header img { height: 100%; }
+    header h1 { font-size: 50px; margin: 0; line-height: 50px; }
+    header p { font-size: 20px; }
+
+    section { margin-bottom: 1cm; }
+    h1 { font-size: 17pt; font-weight: 600; margin-bottom: .5cm; }
+    h2 { font-size: 14pt; font-weight: 600; margin-bottom: .5cm; margin-top: .75cm; }
+    p{ font-size: 12pt; font-weight: 200; margin-bottom: .25cm; }
+    span { font-style: italic; font-size: 11pt; font-weight: 100; margin-bottom: 10px; }
+    ul { width: calc(100% - 20px); margin-left: 20px; font-size: 12pt; }
+    ul span { font-style: normal; font-size: 12pt; }
+    li { font-weight: 500; margin-bottom: 3px; }
+    strong { font-weight: 500; }
+    .table { margin-bottom: .25cm; }
+    table { width: 100%; }
+    table, th, td { font-size: 10pt; padding: 5px; text-align: center; border: 1px solid black; border-collapse: collapse; }
+    table.balance th:nth-last-child(-n+3), table.expiration th:nth-last-child(-n+2) { width: 90px; }
+    table>thead th:first-child, table>thead th:last-child { width: 90px; }
+    table .cash::before { content: 'USD '; }
+    table .annual::after, table .mensual::after { font-style: italic; font-size: 10pt; font-weight: 100; margin-bottom: 10px; }
+    table .annual::after { content: ' - Anual'; }
+    table .mensual::after { content: ' - Mensual'; }
+    table .left { text-align: left; }
+    table .right { text-align: right; }
+    table .sub td:nth-child(2) { padding-left: 30px; }
+    .italic { font-style: italic; }
+  </style>
+
+  <title>Resumen Financiero</title>
+</head>
+  <body>
+    <header>
+      <img src="https://img.icons8.com/material/452/facebook-f.png" style="filter: invert(1);" alt="">
+      <div>
+        <h1>Financiación</h1>
+        <p>Resumen de cuentas, planteamiento básico y situación financiera del proyecto foundmypet.org</p>
+        <span>Emitido el 09/04/2021 - correspondiente a Abril de 2021</span>
+      </div>
+    </header>
+    <div id="body">
+      <section>
+        <h1>Prefacio</h1>
+        <p>
+          Aquí se pretende retratar la situación financiera que da pie a que foundmypet.org exista. 
+          Se contemplan gastos de creación, mantenimiento y desarrollo, amén de demás cosas que 
+          sean necesarias para el correcto funcionamiento de la plataforma.
+        </p>
+        <p>
+          Este documento <strong>NO</strong> tiene ninguna validez legal de ningún tipo. Está
+          únicamente redactado a fin de brindar al lector un vistazo rápido de la situación
+          económica y financiera de esta iniciativa. De esta manera se busca generar
+          transparencia en cuanto al funcionamiento general del proyecto, además de proporcionar
+          una vision clara de dónde y cómo se usará el dinero de aquellos interesados en hacer
+          una donación.
+        </p>
+      </section>
+  
+      <section>
+        <h1>Finanzas</h1>
+        <p>
+          Todos los valores y montos expresados a lo largo del documento están expresados en 
+          <strong>USD</strong> <span>(dólares estadounidenses)</span> que, al día de redactado este documento, 
+          el Viernes 9 de abril de 2021, cotizan en el mercado oficial a <strong>AR $97.10</strong>
+          <span>(noventa y siete con diez pesos argentinos)</span> y a <strong>AR $140</strong> <span>(ciento cuarenta 
+          pesos argentinos)</span> en el informal.
+        </p>
+        <p>
+          Este proyecto comprende gastos mensuales y anuales (que serán señalados con <strong>A</strong> 
+          o <strong>M</strong> según corresponda). El listado de bienes y servicios esenciales para 
+          que la plataforma funcione son:
+        </p>
+        <ul>
+          <li>
+            [A] Dominio:
+            <span>
+              propiedad de nombre y dirección en internet, es lo que permite que se acceda a la 
+              página mediante <strong>https://foundmypet.org</strong>.
+            </span>
+          </li>
+          <li>
+            [A] Privacidad Whois:
+            <span>
+              mantiene la privacidad y la confidencialidad de los datos del servidor y el 
+              dominio en internet.
+            </span>
+          </li>
+          <li>
+            [A] Correos: 
+            <span>
+              la/las casillas de correo electrónico necesarias para poder contactar a los usuarios 
+              o brindar atención frente a cualquier inconveniente.
+            </span>
+          </li>
+          <li>
+            [M] Hosting: 
+            <span>
+              servidor remoto que aloja el sistema.
+            </span>
+          </li>
+        </ul>
+  
+        <h2>Estado de cuenta</h2>
+        <p>
+          En el mes actual, de Abril de 2020, el estado de cuentas de la plataforma se encuentra acorde 
+          al siguiente balance histórico:
+        </p>
+        <div class="table">
+          <table class="balance">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Debe</th>
+                <th>Haber</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>30/01/2021</td>
+                <td class="left" >Inversión inicial por fondos personales</td>
+                <td class="cash" >0,00</td>
+                <td class="cash" >21,80</td>
+                <td class="cash" >21,80</td>
+              </tr>
+              <tr>
+                <td>30/01/2021</td>
+                <td class="left" >Dominio</td>
+                <td class="cash" >9,00</td>
+                <td class="cash" >0,00</td>
+                <td class="cash" >12,80</td>
+              </tr>
+              <tr>
+                <td>30/01/2021</td>
+                <td class="left" >Privacidad Whois</td>
+                <td class="cash" >0,00</td>
+                <td class="cash" >0,00</td>
+                <td class="cash" >12,80</td>
+              </tr>
+              <tr>
+                <td>08/03/2021</td>
+                <td class="left" >Correo (1 Casilla)</td>
+                <td class="cash" >8,70</td>
+                <td class="cash" >0,00</td>
+                <td class="cash" >4,10</td>
+              </tr>
+              <tr>
+                <td>20/03/2021</td>
+                <td class="left" >Hosting</td>
+                <td class="cash" >4,10</td>
+                <td class="cash" >0,00</td>
+                <td class="cash" >0,00</td>
+              </tr>
+            </tbody>
+          </table>
+          <span>
+            * "Privacidad Whois" está listada por un valor de USD 0,00 porque el primer año se aplicó
+            un descuento del 100%. En las siguientes contrataciones ese valor ascenderá a USD 5,00.
+          </span>
+        </div>
+
+
+        <h2>Vencimientos</h2>
+        <p>La lista de servicios a renovar en Abril de 2020 es:</p>
+        <div class="table">
+          <table class="expiration">
+            <thead>
+              <tr>
+                <th>Adquisición</th>
+                <th>Concepto</th>
+                <th>Duración</th>
+                <th>Vencimiento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>30/01/2021</td>
+                <td class="left" >Dominio</td>
+                <td>1 año</td>
+                <td>30/01/2022</td>
+              </tr>
+              <tr>
+                <td>30/01/2021</td>
+                <td class="left" >Privacidad Whois</td>
+                <td>1 año</td>
+                <td>30/01/2022</td>
+              </tr>
+              <tr>
+                <td>08/03/2021</td>
+                <td class="left" >Correo (1 Casilla)</td>
+                <td>1 año</td>
+                <td>08/03/2022</td>
+              </tr>
+              <tr>
+                <td>20/03/2021</td>
+                <td class="left" >Hosting</td>
+                <td>1 mes</td>
+                <td>20/04/2021</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    
+      <section>
+        <h1>Cómo usamos las donaciones</h1>
+        <p>
+          Como todo proyecto, producto o servicio, alguien debe dedicarse a mantenerlo 
+          y atenderlo. Es necesario brindarle la atención y el tiempo necesario para que 
+          su funcionamiento sea el correcto. En este caso, somos dos personas las que 
+          llevamos y mantenemos este proyecto activamente en pie. Esto nos supone una 
+          inversión de tiempo y dinero que costeamos con nuestro trabajo y nuestros bienes. 
+          Es por eso que queremos dejar en claro que en ciertas situaciones usaremos las 
+          donaciones que se aporten en nuestro beneficio personal. <strong>Esto último NO
+          será siempre así.</strong> 
+        </p>
+
+        <h2>Jerarquía</h2>
+        <p>
+          Pondremos siempre por encima de todo las necesidades del proyecto. No usaremos los 
+          fondos generados y destinados a la plataforma siempre que haya algúna propuesta, 
+          actualización, mejora, gasto, compra o cualquier cosa pendiente que sea competente 
+          al desempeño de la aplicación.
+        </p>
+
+        <h2>Objetivos</h2>
+        <p>
+          El objeto principal con el que se usarán las donaciones es para mejorar la plataforma, 
+          haciéndola más completa, útil y flexible. De hecho, es nuestra intención ponernos en 
+          contacto con los donantes a fin de recibir sugerencias y retroalimentación de la 
+          aplicación para saber cuales son los principales inconvenientes y/o sugerencias.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+include pet_entry.pug
+
+mixin pet_list(title, list)
+    #petlist
+        h2= title
+        each pet in list
+            each item in pet
+                +pet_entry(item.pet_name, item.disappearance_date, item.details.slice(0, 67), item.picture, item.id)

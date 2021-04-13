@@ -1,0 +1,19 @@
+mixin header(title)
+    header#header
+        a(href='/')
+            h1= title
+
+mixin footer()
+    footer#footer
+        a(href='/', title=lang.dictionary.nearby)
+            span.icon-map-pin
+        a(href='/pet/add', title=lang.dictionary.report)
+            span.icon-paw-print
+        a(href='/settings', title=lang.dictionary.config)
+            span.icon-settings
+
+mixin loading(first=false)
+    div.loading(class=(first == true) ? 'loadfirst' : null)
+        div(class='circleG circleG_1')
+        div(class='circleG circleG_2')
+        div(class='circleG circleG_3')

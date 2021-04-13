@@ -1,0 +1,15 @@
+{
+  "compileOnSave": true,
+
+  "compilerOptions": { 
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "target": "ES2020",
+    "allowSyntheticDefaultImports": true,
+    "watch": true,
+    "outDir": "./lib/dist"
+  },
+
+  "include": [ "./lib/ts/*.ts" ],
+  "exclude": [ "node_modules", "**/*.spec.ts" ]
+}

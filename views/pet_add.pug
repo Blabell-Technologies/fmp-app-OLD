@@ -1,0 +1,72 @@
+include models/forms.pug
+include models/resources.pug
+
+<!DOCTYPE html>
+html#fmp(lang=lang.iso639)
+    head
+        meta(charset="UTF-8")
+        script(async='' src='https://www.googletagmanager.com/gtag/js?id=G-91V4B9RMFT')
+        script.
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-91V4B9RMFT');
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(name="theme-color", content="rgb(255, 196, 129)")
+        meta(name="robots", content="noindex")
+
+        script(src=`/lang/${lang.iso639}.js` type='text/javascript' defer)
+        script(src="/scripts/app.js" defer)
+        script(src="/scripts/integrity.js", type="module" async)
+        script(src='https://unpkg.com/@tarekraafat/autocomplete.js@8.3.2/dist/js/autoComplete.min.js' defer)
+        script(src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js" defer)
+        script(src='/scripts/pet_add.js', type='module' defer)
+        script(src='/scripts/lib.js', type='module' async)
+
+
+        link(rel="preconnect", href="https://fonts.gstatic.com")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap")
+        link(rel="stylesheet", href="/styles/reset.css")
+
+        link(rel="stylesheet", href="/styles/basics.css")
+        link(rel="stylesheet", href="/styles/pet_add.css")
+        link(rel="stylesheet", href="/icons/icons.css")
+
+        link(rel="icon" type="image/png" href="/img/logos/fmp_logo-512.png")
+        link(rel="manifest", href="/manifest.webmanifest")
+
+        title FoundMyPet
+    body
+        +header(lang.dictionary.report_pet)
+        #pet
+            #generalinfo
+                h3= lang.dictionary.general_information
+                .custom-select.custom-animals
+                    label(for="pet_animal")
+                        span= lang.dictionary.animal
+                    select(class="addpet", id="pet_animal")
+                        option(value="none")= lang.dictionary.select
+                .custom-select.custom-races.optional
+                    label(for="pet_race")
+                        span= lang.dictionary.pet_race
+                    select(class="addpet optional", id="pet_race")
+                        option(value="none")= lang.dictionary.select
+                div.custom-files
+                    span(required)= lang.dictionary.photos
+                    #photo_list
+                        +input('addpet', 'pet_photo_0', lang.dictionary.photos, 'file')
+                +input('addpet', 'pet_name', lang.dictionary.pet_name)
+                +input('addpet', 'disappearance_date', lang.dictionary.disappearance_date, 'datetime-local')
+                +input('addpet', 'disappearance_place', lang.dictionary.disappearance_place, 'place')
+                +input('addpet', 'details', lang.dictionary.details, 'details')
+            #contactinfo
+                h3= lang.dictionary.contact
+                +input('addpet', 'owner_name', lang.dictionary.owner_name)
+                +input('addpet', 'owner_phone', lang.dictionary.owner_phone, 'tel')
+                +input('addpet', 'owner_email', lang.dictionary.owner_email)
+                +input('addpet', 'owner_home', lang.dictionary.owner_home, 'place', true)
+            #secondaryinfo
+                h3= lang.dictionary.secondary
+                +input('addpet', 'reward', lang.dictionary.reward, 'text', true)
+            button(id="send_data")= lang.dictionary.report_btn
+        +footer()

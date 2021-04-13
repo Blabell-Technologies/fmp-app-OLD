@@ -1,0 +1,40 @@
+{
+  "name": "foundmypet",
+  "version": "dev<1.0.10>",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "production": "pm2 start index.js --node-args=\"-r esm\" --name APP",
+    "dev": "pm2 start index.js --watch --node-args='-r esm' --name APP"
+  },
+  "keywords": [],
+  "author": "Bruno Emanuel Ferreyra",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.14.25",
+    "@types/node-fetch": "^2.5.8",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dayjs": "^1.10.4",
+    "express": "^4.17.1",
+    "express-formidable": "^1.2.0",
+    "express-query-auto-parse": "^3.0.1",
+    "fmp-client": "^1.0.3",
+    "geoip-lite": "^1.4.2",
+    "mongoose": "^5.12.3",
+    "mongoose-paginate-v2": "^1.3.17",
+    "mongoose-simple-random": "^0.4.1",
+    "node-fetch": "^2.6.1",
+    "nodemailer": "^6.4.18",
+    "pug": "^3.0.2",
+    "register-service-worker": "^1.7.2",
+    "sortablejs": "^1.13.0",
+    "web-push": "^3.4.4"
+  }
+}

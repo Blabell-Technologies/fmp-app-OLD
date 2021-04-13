@@ -1,0 +1,45 @@
+include models/pet_list.pug
+include models/forms.pug
+include models/resources.pug
+
+<!DOCTYPE html>
+html#fmp(lang=lang.iso639)
+    head
+        meta(charset="UTF-8")
+        script(async='' src='https://www.googletagmanager.com/gtag/js?id=G-91V4B9RMFT', type="application/javascript charset=utf-8")
+        script(type="application/javascript charset=utf-8").
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-91V4B9RMFT');
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(name="theme-color", content="rgb(255, 196, 129)")
+        meta(name="description", content=lang.dictionary.meta.description)
+        
+        script(src=`/lang/${lang.iso639}.js`, type='text/javascript', defer)
+        script(src="/scripts/app.js")
+        script(src="/scripts/integrity.js", type="module")
+        script(src="/scripts/pet_list.js", type='module')
+
+        link(rel="preconnect", href="https://fonts.gstatic.com")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap")
+        link(rel="stylesheet", href="/styles/reset.css")
+        link(rel="stylesheet", href="/styles/basics.css")
+        link(rel="stylesheet", href="/styles/pet_lists.css")
+        link(rel="stylesheet", href="/styles/news.css")
+        link(rel="stylesheet", href="/icons/icons.css")
+
+        link(rel="icon" type="image/png" href="/img/logos/fmp_logo-512.png")
+        link(rel="manifest", href="/manifest.webmanifest")
+        
+        title FoundMyPet
+    body
+        +header('Found My Pet')
+        div#body
+            +input('', 'search', lang.dictionary.search_bar, 'search')
+            div#petlist
+                h2= lang.dictionary.last_cases
+                +loading(true)
+        +footer()
+        template#entry
+            +pet_entry()

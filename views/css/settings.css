@@ -1,0 +1,8 @@
+#body>div { border-bottom: 1px rgb(231, 231, 231) solid; margin-bottom: 20px; padding-bottom: 20px; }
+#body>div:last-child { border-bottom: 0; }
+#body>div>* { margin-top: 20px; }
+#body>div>*:first-child { margin-top: 0 !important; }
+#body>div>div.custom-select { margin-bottom: 20px; }
+#body>div>*:last-child { margin-bottom: 0 !important; }
+#body button { height: 40px; width: 110px; border-radius: 15px; color: white; border: none; cursor: pointer; background-color: rgb(255, 196, 129); }
+#body>div>div.oneline { display: flex; justify-content: space-between; }

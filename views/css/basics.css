@@ -1,0 +1,145 @@
+body {min-height: 100vh;}
+.noscroll {overflow: hidden;}
+.hide {display: none;}
+header {width: 100%; height: 50px; background-color: rgb(255, 196, 129); display: flex; justify-content: center; align-items: center;}
+
+footer {position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background-color: white; box-shadow: 2px -6px 44px -12px rgba(0,0,0,0.31); display: flex; flex-direction: row; justify-content: space-around; align-items: center;}
+footer>a {width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;}
+footer>a>span {font-size: 15pt;}
+
+#body, #pet {padding: 20px; margin-bottom: 60px; min-height: calc(100vh - 110px)}
+input, select, textarea {resize: vertical; max-height: 160px; min-height: 40px; width: 100%; height: 40px; padding: 10px; border-radius: 15px; border: solid 1px #3d3d3d; font-weight: 200; font-family: 'Rubik', sans-serif; font-size: 12pt;}
+textarea {height: 160px; white-space: pre-wrap;}
+
+label[type="file"] {display: flex; justify-content: center; align-items: center; background-color: #eaeaea; color: #424242; cursor: pointer; font-size: 24px; font-weight: bold; overflow: hidden; width: 80px; height: 80px; border-radius: 10px;}
+label[type="file"]>input {display: none;}
+
+span[data-opt_text]::after { content: ' - ' attr(data-opt_text); color: rgba(0,0,0,.5); font-style: italic; font-size: 13px; }
+label.search_button {display: flex; width: 100%;}
+label.search_button>input {width: 100%; border-right: none; border-top-right-radius: 0; border-bottom-right-radius: 0;}
+label.search_button>button {border: solid 1px #3d3d3d; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-left: none; width: 40px; background-color: #ffc481;}
+label.search_button>button>span {color: white; font-size: 150%;}
+
+.inputerror {border: solid 1px #e73030 !important;}
+
+#error {display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100vh - 60px - 50px);}
+#error>span {margin-bottom: 30px; width: 25vw; height: 25vw; min-width: 150px; min-height: 150px; font-size: 15vw; color: white; display: flex; justify-content: center; align-items: center; background-color: #ff8c8c; border-radius: 100%;}
+#error>p {margin-top: 20px; width: 100%; max-width: 50vw; text-align: center;}
+#error>div { margin-top: 20px; width: 100%; max-width: 60vw; display: flex; justify-content: space-around; }
+#error>div>button { height: 40px; width: calc(50% - 15px); border-radius: 15px; border: none; cursor: pointer; background-color: #efefef; }
+#error a {color: rgb(255, 196, 129); font-weight: 500;}
+
+
+#appupdate, #appinstall {display: flex; padding: 15px; flex-direction: row; justify-content: space-between;}
+#appupdate>span, #appinstall>span {margin: auto 0; font-size: 25px;}
+#appupdate>p, #appinstall>p {margin: 0 10px 0 10px; width: 100%;}
+#appupdate>button, #appinstall>button {border: none; cursor: pointer; background-color: #ffc481; color: white; width: 30%; border-radius: 15px;}
+
+#iosappinstall {position: absolute; top: 0; left: 0; height: 100vh; width: 100%; display: flex; flex-direction: column; z-index: 1000; background-color: rgba(0, 0, 0, 0.93); justify-content: center; align-items: center;}
+#iosappinstall>span {position: absolute; top: 20px; right: 20px; font-size: 10vw; color: white;}
+#iosappinstall>p {color: #ffffff; max-width: 75%; text-align: center; margin-top: 20px;}
+#iosappinstall>p>strong {font-weight: 500;}
+#iosappinstall>h1 {color: #ffffff; max-width: 75%; text-align: center;}
+
+div.loadfirst { position: absolute; top: 50vh; left: calc(50% - 65px); }
+div.loading {margin: 20px auto 0 auto; height: 32px; width: -moz-fit-content; width: fit-content; }
+div.loading>div.circleG { float:left; height:32px; width:32px; -moz-animation-name:bounce_circleG; -moz-animation-duration:2.25s; -moz-animation-iteration-count:infinite; -moz-animation-direction:normal; -moz-border-radius:21px; -webkit-animation-name:bounce_circleG; -webkit-animation-duration:2.25s; -webkit-animation-iteration-count:infinite; -webkit-animation-direction:normal; -webkit-border-radius:21px; -ms-animation-name:bounce_circleG; -ms-animation-duration:2.25s; -ms-animation-iteration-count:infinite; -ms-animation-direction:normal; -ms-border-radius:21px; -o-animation-name:bounce_circleG; -o-animation-duration:2.25s; -o-animation-iteration-count:infinite; -o-animation-direction:normal; -o-border-radius:21px; animation-name:bounce_circleG; animation-duration:2.25s; animation-iteration-count:infinite; animation-direction:normal; border-radius:21px; }
+div.loading>div.circleG_1 { -moz-animation-delay:0.45s; -webkit-animation-delay:0.45s; -ms-animation-delay:0.45s; -o-animation-delay:0.45s; animation-delay:0.45s; }
+div.loading>div.circleG_2 { margin: 0 17px; -moz-animation-delay:1.05s; -webkit-animation-delay:1.05s; -ms-animation-delay:1.05s; -o-animation-delay:1.05s; animation-delay:1.05s; }
+div.loading>div.circleG_3 { -moz-animation-delay:1.35s; -webkit-animation-delay:1.35s; -ms-animation-delay:1.35s; -o-animation-delay:1.35s; animation-delay:1.35s; }
+@-moz-keyframes bounce_circleG { 0%{} 50%{background-color:#ffc481} 100%{} }
+@-webkit-keyframes bounce_circleG { 0%{} 50%{background-color:#ffc481} 100%{} }
+@-ms-keyframes bounce_circleG { 0%{} 50%{background-color:#ffc481} 100%{} }
+@-o-keyframes bounce_circleG { 0%{} 50%{background-color:#ffc481} 100%{} }
+@keyframes bounce_circleG { 0%{} 50%{background-color:#ffc481} 100%{} }
+
+.capp_link { background-color: rgb(255, 196, 129); display: flex; align-items: center; justify-content: center; padding: 10px 30px; border-radius: 100px; margin: 16px 15px 0 15px; }
+.capp_link>img { width: 35px; }
+.capp_link>h3 { padding-left: 15px; color: #fff; font-weight: 400; font-size: 13pt; }
+
+
+
+/*--------------------------------------------------------------------------------------*/
+/*                            ESTILOS BASICOS DE COMPLESHON                             */
+/*--------------------------------------------------------------------------------------*/
+
+.compleshon { position: relative; margin-top: 20px; }
+.compleshon>label>input { margin-top: 7px; }
+.compleshon>.compleshon-suggestions>.compleshon-suggestion>.compleshon-text { width: 100%; display: flex; flex-wrap: wrap; font-family: 'Rubik', sans-serif; margin-left: 10px; }
+.compleshon>.compleshon-suggestions>.compleshon-suggestion>.compleshon-text>h4 { font-weight: 500; margin-right: 15px; }
+
+/* ---- compleshon open styles -------------------------------------------------------- */
+.compleshon-open>label>input { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.compleshon-open>.compleshon-suggestions { display: block; }
+
+/* ---- compleshon focus styles ------------------------------------------------------- */
+.compleshon>.compleshon-suggestions>.compleshon-suggestion:hover, .compleshon>.compleshon-suggestions>.compleshon-suggestion:focus { background-color: #e6e6e6; }
+
+input[aria-expanded] { transition: .5s all; }
+input[aria-expanded="true"] { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+
+ul.autoComplete_list { width: 100%; min-height: 10px; max-height: 250px; background-color: white; position: absolute; z-index: 9; border: solid 1px #3d3d3d; border-top: none; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; overflow: auto; }
+ul.autoComplete_list>li { width: 100%; display: flex; padding: 10px 20px; box-sizing: border-box; flex-direction: column; }
+ul.autoComplete_list>li:nth-child(even) { background-color: #f5f5f5; }
+ul.autoComplete_list>li>div>i { padding-right: 5px; }
+ul.autoComplete_list>li>span { color: rgba(0,0,0,.7); font-size: 11pt; }
+/*--------------------------------------------------------------------------------------*/
+/*                              ESTILOS BASICOS DE TOASTS                               */
+/*--------------------------------------------------------------------------------------*/
+
+.toastjs-container { position: absolute; position: fixed; margin-bottom: 70px; bottom: 10px; left: 20px; width: calc(100% - 40px); max-width: 400px; transform: translateX(-150%); transition: transform 1s; z-index: 100; }
+.toastjs-container[aria-hidden="false"] { transform: translateX(0%); }
+.toastjs { background: #fff; padding: 10px 15px; border-left-style: solid; border-left-width: 5px; border-radius: 15px; box-shadow: 0 2px 5px 0 rgba(0,0,0,0.2); }
+.toastjs.default { border-left-color: #AAAAAA; }
+.toastjs.success { border-left-color: #b6ff8c; }
+.toastjs.warning { border-left-color: #FF851B; }
+.toastjs.danger { border-left-color: #ff8c8c; }
+.toastjs-btn { background: rgb(240,240,240); padding: 5px 10px; border: 0; border-radius: 4px; font-family: 'Rubik', sans-serif; font-size: 14px; text-transform: capitalize; display: inline-block; margin-top: 5px; cursor: pointer; }
+.toastjs-btn--custom { background: rgb(50,50,50); color: #fff; }
+.toastjs-btn:hover, .toastjs-btn:focus { outline: none; box-shadow: 0 0px 0px 0 rgba(0,0,0,0.1); }
+
+
+
+
+
+/*--------------------------------------------------------------------------------------*/
+/*                              ESTILOS BASICOS DE MODALS                               */
+/*--------------------------------------------------------------------------------------*/
+
+.modal { display: none; }
+.modal.is-open { display: flex; position: fixed; width: 100vw; z-index: 500; height: 100vh; top: 0; left: 0; justify-content: center; align-items: center; background-color: rgba(0,0,0,.6); }
+.modal>div { padding: 40px 25px; display: flex; flex-direction: column; align-items: center; box-shadow: 0px 0px 31px -3px rgba(0,0,0,0.2); background-color: white; border-radius: 15px; width: calc(100% - 140px); min-width: 250px; top: 20px; left: 20px; z-index: 2000; }
+.modal>div>h3 { text-align: center; }
+.modal>div>p { margin-top: 20px; text-align: center;}
+.modal>div>div { margin-top: 20px; display: flex; flex-direction: column;}
+.modal>div>div>button { padding: 10px; background-color: #efefef; margin: 0 auto 15px auto; border: 0; border-radius: 15px; font-family: 'Rubik', sans-serif; font-size: 14px; cursor: pointer; }
+.modal>div>div>button:last-child { margin: 0 auto 0 auto !important; }
+.modal>div>div>button.secondary { background: rgb(50,50,50); color: #fff; }
+.modal>div>span { margin-bottom: 20px; width: 25vw; height: 25vw; font-size: 15vw; color: white; display: flex; justify-content: center; align-items: center; background-color: #ff8c8c; border-radius: 100%; }
+.modal span.default {background-color: #AAAAAA; }
+.modal span.success {background-color: #b6ff8c; }
+.modal span.warning {background-color: #FF851B; }
+.modal span.danger {background-color: #ff8c8c; }
+
+
+
+
+
+/*--------------------------------------------------------------------------------------*/
+/*                              ESTILOS BASICOS DE MODALS                               */
+/*--------------------------------------------------------------------------------------*/
+
+.custom-select {position: relative; font-family: Arial; display: flex; flex-direction: row; justify-content: space-between;}
+.custom-select select {display: none;}
+.select-selected {font-weight: 600; background-color: white;}
+.select-selected::after {content: "\e903"; margin-left: 10px; font-family: 'icomoon'; font-weight: normal; font-style: normal; margin: 0px 0px 0px 10px; text-decoration: none;}
+.select-selected.select-arrow-active:after {content: "\e90d"; border-color: transparent transparent #fff transparent; top: 7px;}
+.select-items {position: absolute; background-color: rgba(255,255,255,0); background-image: linear-gradient(to left, white, white, white, white, rgb(0,0,0,0)); top: calc(100% + 5px); right: 0; z-index: 99; min-width: 150px; width: -moz-fit-content; width: fit-content; border-radius: 10px; max-height: 45vh; overflow: auto;}
+.select-items div {padding: 0 17px 15px;}
+.select-items div:first-child {padding-top: 15px !important;}
+.select-items div, .select-selected {color: rgb(255, 196, 129); cursor: pointer; text-align: end;}
+.select-hide {display: none;}
+.select-items .same-as-selected {font-weight: 600;}
+.select-items div { transition: 0.2s; }
+.select-items div:hover { font-weight: 600; transform: translateX(-5px); }
+.select-selected::first-letter, .select-items>div::first-letter { text-transform: capitalize; }

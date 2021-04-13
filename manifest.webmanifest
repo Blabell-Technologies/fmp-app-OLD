@@ -1,0 +1,32 @@
+{
+    "theme_color": "#FFC481",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "name": "Found My Pet",
+    "short_name": "FoundMyPet",
+    "description": "Una plataforma abierta y gratuita para ayudar a la b\u00fasqueda de mascotas perdidas",
+    "icons": [
+        {
+            "src": "/img/logos/fmp_logo-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/logos/fmp_logo-256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/logos/fmp_logo-384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/logos/fmp_logo-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

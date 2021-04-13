@@ -1,0 +1,4 @@
+html {height: calc(100vh - 60px);}
+body {height: 100%;}
+#body_error {display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100vh - 60px - 50px);}
+#body_error>span {margin-bottom: 20px; width: 25vw; height: 25vw; font-size: 24vw; color: white; display: flex; justify-content: center; align-items: center; background-color: #ff8c8c; border-radius: 100%;}
