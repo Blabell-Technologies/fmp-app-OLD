@@ -21,7 +21,7 @@ package-lock.json
 
 # APP Files
 logs
-administration/financial
+administration/documents
 api/temp
 api/logs
 .env
