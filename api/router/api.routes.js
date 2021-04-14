@@ -50,6 +50,7 @@
 //#endregion
 
 //#region Gestor de mascotas
+
   // Mascotas cercanas a tu ubicación
   router.get('/pets/nearby', async (req, res) => {
     try { 
@@ -108,9 +109,9 @@
           },
           to: body.owner_email,
           subject: lang.mail.pet_add.subject,
-          html: compiler(`/api/mail/templates/pet_add/${req.cookies.lang}`, { owner_name: body.owner_name, pet_name: body.pet_name, edit_id: result.edit_id }),
+          html: compiler(`pet_add/${req.cookies.lang}`, { owner_name: body.owner_name, pet_name: body.pet_name, edit_id: result.edit_id }),
           attachments: [
-            { filename: 'fmp_headerimg.png', path: process.env.basedir + '/views/assets/img/logos/fmp_logo_vertical.jpg', cid: 'fmp_headerimg' }
+            { filename: 'fmp_headerimg.png', path: process.cwd() + '/views/assets/img/logos/fmp_logo_vertical.jpg', cid: 'fmp_headerimg' }
           ]
         }
 
@@ -126,6 +127,20 @@
     }
   });
 
+  // Confirmar la publicación de un post
+  router.put('/pets/confirm/:uuid', async (req, res) => {
+    try {
+      let url = new URL(`https://api.foundmypet.org/pets/insider/verify/${req.params.uuid}`);
+      const request = await fetch(url, { method: 'PUT', headers: { 'access-token': 'B2wmZLREFsk2c11' } });
+      const decoded = await request.json();
+      if (!request.ok) return res.status(request.status).json(decoded);
+      return res.json(decoded);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+  });
+
   // Modificar un post
   router.put('/pets/modify/:id', formidable({ multiples: true }), async (req, res) => {
     const body = {...req.files, ...req.fields};
@@ -133,6 +148,7 @@
     catch (err) { print.error(err); return res.json(err) }
   });
 
+  // Eliminar un post
   router.delete('/pets/delete/:uuid', async (req, res) => {
     try {
       const result = await fmp.pets.delete(req.params.uuid);
@@ -145,15 +161,15 @@
           },
           to: req.query.mail,
           subject: lang.mail.pet_delete.subject,
-          html: compiler(`/api/mail/templates/pet_delete/${req.cookies.lang}`, { owner_name: req.query.owner, pet_name: req.query.pet_name }),
+          html: compiler(`pet_delete/${req.cookies.lang}`, { owner_name: req.query.owner, pet_name: req.query.pet_name }),
           attachments: [
-            { filename: 'fmp_headerimg.png', path: process.env.basedir + '/views/assets/img/logos/fmp_logo_vertical.jpg', cid: 'fmp_headerimg' }
+            { filename: 'fmp_headerimg.png', path: process.cwd() + '/views/assets/img/logos/fmp_logo_vertical.jpg', cid: 'fmp_headerimg' }
           ]
         }
 
         mail.sendMail(config)
-          .then((email) => print.info(`Email successfully sended to ${req.query.mail} for creating a new post`))
-          .catch((err) => { print.error(`Error sending mail to ${req.query.mail} while creating a new post.\n${err}`); });
+          .then((email) => print.info(`Email successfully sended to ${req.query.mail} for deleting a post`))
+          .catch((err) => { print.error(`Error sending mail to ${req.query.mail} while deleting a post.\n${err}`); });
         
       return res.json(result);
       }
@@ -310,5 +326,30 @@
   });
 
 //#endregion
+
+//#region Captchas y verificaciones
+
+  router.get('/captcha/verify', async (req, res) => {
+    const secret_key = '0xDeE663a4aE49e980B143aE88A7DEE7ED44903eC4';
+    const hcaptcha_response = req.query.hcaptcha_response || null;
+
+    if (hcaptcha_response == null) return res.status(500).json({ kind: 'captcha-response-null', description: 'Captcha response value was expected but not found' });
+    
+    try {
+      const data = `response=${hcaptcha_response}&secret=${secret_key}`;
+  
+      let request = await fetch('https://hcaptcha.com/siteverify', {
+        method: 'POST', 
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: data
+      });
+      request = await request.json();
+  
+      return res.json(request);
+    } catch(err) { print.error(err); return res.json(err) }
+  });
+
+//#endregion
+
 
 module.exports = router;

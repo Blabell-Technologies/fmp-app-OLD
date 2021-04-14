@@ -609,7 +609,7 @@ async function send_data() {
       title: lang.modify_success,
       icon: 'icon-heart',
       buttons: [
-        {text: lang.goback, type: 'primary', action: () => window.location.href = `https://foundmypet.org/pet/info/${pet_info.id}`}
+        {text: lang.goback, type: 'primary', action: () => window.location.href = window.location.origin + '/pet/info/' + pet_info.id }
       ]
     });
 

@@ -22,6 +22,7 @@ const lang = {
   "written_by": "Verkita de",
   "information": "Informoj",
   "further_reading": "Legu pli",
+  "security": "Sekureco",
 
   // Pagina principal
   "search_bar": "Serĉu perditajn dorlotbestojn",
@@ -66,6 +67,9 @@ const lang = {
   "finded_success": "Oni informis, ke via dorlotbesto sukcese naskis",
   "finded_info": "Ni tre ĝojus diri al la mondo, ke via dorlotbesto aperis denove.\n\nNi bezonas vin konfirmi, ĉu vi jam trovis ĝin.",
   "finding_post": "Raportanta apero...",
+  "confirm_info": "Konfirmante publikigon...",
+  "confirm_error": "Estis eraro konfirmante la afiŝon",
+  "confirm_success": "Afiŝo estis sukcese validigita",
   "sharingtext": {
     "twitter": "__name__ PERDIS!\n\nLaste vidita la __date__ en __place__. Vidu pli detalajn informojn en la suba ligilo.\n\nĈiu RT estas bonega helpo!\n",
     "whatsapp": "__name__ PERDIS!\n\nLaste vidita la __date__ en __place__.\n\nVidu pli detalajn informojn en la suba ligilo.\n"
@@ -165,7 +169,8 @@ const lang = {
     "ResourceNotFound": "Rimedo ne trovita",
     "InvalidFoundState": "Trovita nevalida statuso",
     "UnexpectedApiError": "Okazis neatendita servila eraro",
-    "InvalidToken": "Nevalida ĵetono"
+    "InvalidToken": "Nevalida ĵetono",
+    "InvalidCaptcha": "Nevalida captcha"
   },
 
   // Errores de cliente
@@ -177,7 +182,8 @@ const lang = {
     "page_not_found": "Ĉi tiu paĝo ne ekzistas",
     "offline": "Vi estas eksterrete",
     "something_wrong": "Io misas",
-    "server_fail": "Io malsukcesis en la servilo"
+    "server_fail": "Io malsukcesis en la servilo",
+    "captcha_fail": "Io fuŝiĝis dum kontrolado de la captcha"
   },
 
   "close": "proksime",
@@ -229,6 +235,16 @@ const lang = {
     "modal6": {
       "title": "Ekzistantaj informoj",
       "text": "La datumoj de via aparato jam estis senditaj antaŭe"
+    }
+  },
+
+  "pet_success": {
+    "page": {
+      "title": "Sukcesa afiŝado",
+      "text1": "Via afiŝo estas preta por ĉiuj vidi, sed unue estas unu lasta paŝo: konfirmi ĝin.",
+      "text2": "Por tio, ni sendas al vi retpoŝton al __mail__, kie vi trovos la ligon por fari ĝin (per kelkaj klakoj ĝi finiĝis). Ankaŭ tie vi havos rektan aliron redakti vian eldonaĵon tiomfoje kiom necesas.",
+      "text3": "Ni komprenas vian mizeron kaj volas, ke vi sciu, ke ni faros ĉion eblan por trovi vian dorlotbeston.",
+      "button": "Reen al supro"
     }
   }
 }

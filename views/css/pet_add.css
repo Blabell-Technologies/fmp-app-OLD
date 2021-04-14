@@ -15,3 +15,5 @@
 #generalinfo>div.custom-files>div#photo_list>label>span::after {content: ''; position: absolute; width: 50%; height: 50%; background-color: lightgrey; border-radius: 100%; z-index: 1; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);}
 #generalinfo>div.custom-files>div#photo_list>label>span::before {z-index: 100;}
 .hidden {display: none !important;}
+
+div.h-captcha { display: flex; justify-content: center; margin-top: 20px; }

@@ -400,6 +400,8 @@ send_btn.addEventListener('click', async () => {
       icon: 'icon-heart'
     });
 
+    if (captcha_success == false) throw { name: 'InvalidCaptcha' };
+
     const json = await lib.getData('addpet');
     // console.log('JSON:', json);
 

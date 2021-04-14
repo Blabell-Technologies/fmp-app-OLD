@@ -517,9 +517,11 @@ async function end_post() {
           // Hace la petición
           const request = await fetch(`/api/pets/modify/${pets_posted[pet_id]}?lang=${document.getElementsByTagName('html')[0].lang}`, {body: form_data, method: 'PUT'});
           const decoded = await request.json();
+
+          console.log(decoded);
       
           // Al ser correcta
-          if (decoded.name != undefined && decoded.message != undefined) {
+          if (decoded.name == undefined && decoded.message == undefined) {
 
             // Redirige a la página de felicitaciones por haber encontrado a la mascota
             const url = new URL('/pet/found', window.location.origin);

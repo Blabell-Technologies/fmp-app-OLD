@@ -22,6 +22,7 @@ const lang = {
   "written_by": "Escrito por",
   "information": "Información",
   "further_reading": "Conocé más",
+  "security": "Seguridad",
 
   // Pagina principal
   "search_bar": "Buscá mascotas perdidas",
@@ -66,6 +67,9 @@ const lang = {
   "finded_success": "Se marcó como aparecida correctamente",
   "finded_info": "Estaríamos muy felices de contarle al mundo que tu mascota apareció nuevamente.\n\nNecesitamos que confirmes si ya la encontraste.",
   "finding_post": "Reportando aparición...",
+  "confirm_info": "Confirmando publicación...",
+  "confirm_error": "Hubo un error confirmando la publicación",
+  "confirm_success": "La publicación se validó correctamente",
   "sharingtext": {
     "twitter": "¡SE PERDIÓ __name__!\n\nVisto por última vez el __date__ en __place__. Mira información más detallada en el link de abajo.\n\n¡Cada RT es de gran ayuda!\n",
     "whatsapp": "¡SE PERDIÓ __name__!\n\nVisto por última vez el __date__ en __place__.\n\nMira información más detallada en el link de abajo.\n"
@@ -165,7 +169,8 @@ const lang = {
     "ResourceNotFound": "Recurso no encontrado",
     "InvalidFoundState": "Estado encontrado inválido",
     "UnexpectedApiError": "Hubo un error inesperado del servidor",
-    "InvalidToken": "Token inválido"
+    "InvalidToken": "Token inválido",
+    "InvalidCaptcha": "Hay algo mal con el captcha"
   },
 
   // Errores de cliente
@@ -177,7 +182,8 @@ const lang = {
     "page_not_found": "Esta página no existe",
     "offline": "Estás desconectado",
     "something_wrong": "Hay algo mal",
-    "server_fail": "Algo falló en el servidor"
+    "server_fail": "Algo falló en el servidor",
+    "captcha_fail": "Hubo un error verificando el captcha"
   },
 
   "close": "cerrar",
@@ -230,6 +236,16 @@ const lang = {
     "modal6": {
       "title": "Información existente",
       "text": "Los datos de tu dispositivo ya fueron enviados previamente"
+    }
+  },
+
+  "pet_success": {
+    "page": {
+      "title": "Publicación exitosa",
+      "text1": "Tu publicación está lista para que todos la vean, pero antes hay un último paso: confirmarla.",
+      "text2": "Para eso, te enviamos un correo a __mail__ en donde encontrarás el enlace para hacerlo (con unos pocos clicks ya está). También allá tendrás un acceso directo para editar tu publicación todas las veces que sea necesario.",
+      "text3": "Entendemos tu angustia y queremos que sepas que haremos todo lo posible por encontrar a tu mascota.",
+      "button": "Volver al inicio"
     }
   }
 }

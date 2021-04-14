@@ -1,16 +1,6 @@
 include models/pet_list.pug
 include models/forms.pug
 include models/resources.pug
-    
-- var mail = `<strong>${info.owner_email}</strong>`; 
-
-mixin paragraph(text, key, value)
-    if key != undefined && value != undefined && text.includes(key) == true
-        - var paragraph = text.split(key);
-        p #{paragraph[0]}#[strong= value]#{paragraph[1]}
-    else
-        p #{text}
-        
 
 <!DOCTYPE html>
 html#fmp(lang=lang.iso639)
@@ -30,6 +20,7 @@ html#fmp(lang=lang.iso639)
         script(src=`/lang/${lang.iso639}.js` type='text/javascript' defer)
         script(src="/scripts/app.js")
         script(src="/scripts/integrity.js", type="module")
+        script(src="/scripts/pet_confirm.js", type="module")
 
         link(rel="preconnect", href="https://fonts.gstatic.com")
         link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap")
@@ -45,11 +36,5 @@ html#fmp(lang=lang.iso639)
     body
         +header('Found My Pet')
         div#body
-            span.icon-heart
-            h3= lang.dictionary.pet_success.page.title
-            +paragraph(lang.dictionary.pet_success.page.text1)
-            +paragraph(lang.dictionary.pet_success.page.text2, '__mail__', info.owner_email)
-            +paragraph(lang.dictionary.pet_success.page.text3)
-            a(href="/")
-                button= lang.dictionary.pet_success.page.button
+            +loading(true)
         +footer()

@@ -22,6 +22,7 @@ html#fmp(lang=lang.iso639)
         script(src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js" defer)
         script(src='/scripts/pet_add.js', type='module' defer)
         script(src='/scripts/lib.js', type='module' async)
+        script(src=`https://hcaptcha.com/1/api.js?hl=${lang.iso639.substring(0,2)}` async)
 
 
         link(rel="preconnect", href="https://fonts.gstatic.com")
@@ -68,5 +69,8 @@ html#fmp(lang=lang.iso639)
             #secondaryinfo
                 h3= lang.dictionary.secondary
                 +input('addpet', 'reward', lang.dictionary.reward, 'text', true)
+            #captcha
+                h3= lang.dictionary.security
+                div(class='h-captcha', data-sitekey='96d05ded-5b6e-4911-b122-0c8450f14e3c', data-callback='on_captcha_success', data-error-callback='on_captcha_error')
             button(id="send_data")= lang.dictionary.report_btn
         +footer()

@@ -133,8 +133,14 @@ self.addEventListener('fetch', async (e) => {
 
 								if(fetch_res.status > 500 && e.request.destination == 'document') throw fetch_res.status;
 
+								const req_type = () => fetch_res.type != 'opaque' || fetch_res.url.includes('googleapis');
+								const req_path = () => {
+									const path = url.pathname.split('/');
+									return path[2] !== 'info'|| path[1] !== 'administration' || path[3] !== 'success' || path[3] !== 'confirm';
+								}
+								
 								// Al pedirlo y obtenerlo correctamente, lo guarda en resources si es necesario
-								if ((fetch_res.type != 'opaque' || fetch_res.url.includes('googleapis')) && (url.pathname.split('/')[2] !== 'info'|| url.pathname.split('/')[1] !== 'administration')) group_cache.put(e.request, fetch_res.clone());
+								if (req_type() && req_path()) group_cache.put(e.request, fetch_res.clone());
 
 								// Devuelve el documento en cuestión
 								return fetch_res;

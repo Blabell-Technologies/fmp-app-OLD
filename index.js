@@ -141,9 +141,14 @@ process.env.dirname = __dirname;
 
 	// Mascota publicada correctamente
 	app.get('/pet/add/success/:id', async (req, res) => {
-		if (req.query.owner_email != undefined && req.query.pet_name != undefined) return res.render('pet_success', { info: req.query, lang: req.lang });
+		if (req.query.owner_email != undefined) return res.render('pet_success', { info: req.query, lang: req.lang });
 		else return res.render('error', { 'error': 'Datos erroneos', 'lang': req.lang });
 	});
+
+	app.get('/pet/add/confirm/:id', (req, res) => {
+		if (req.params.id != undefined) return res.render('pet_confirm', { info: req.params.id, lang: req.lang });
+		else return res.render('error', { 'error': 'Datos erroneos', 'lang': req.lang });
+	})
 
 	// Edición de mascota
 	app.get('/pet/edit/:id', async (req, res) => { return res.render('pet_edit', { 'lang': req.lang }); });

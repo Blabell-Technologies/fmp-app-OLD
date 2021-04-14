@@ -22,6 +22,7 @@ const lang = {
   "written_by": "Written by",
   "information": "Information",
   "further_reading": "Further reading",
+  "security": "Security",
 
   // Pagina principal
   "search_bar": "Search lost pets",
@@ -66,6 +67,9 @@ const lang = {
   "finded_success": "Pet reported as appeared successfully",
   "finded_info": "We would be very happy to let the world know that your pet has appeared again.\n\nFirst we need you to confirm if you have already found it.",
   "finding_post": "Reporting appearance...",
+  "confirm_info": "We are validating your post",
+  "confirm_error": "Something went wrong when validating post",
+  "confirm_success": "Post validated successfully",
   "sharingtext": {
     "twitter": "__name__ IS LOST!\n\nLast seen on __date__ at __place__. More detailed info in the link below.\n\nEvery RT helps a lot!\n",
     "whatsapp": "__name__ IS LOST!\n\nLast seen on __date__ at __place__.\n\nMore detailed info in the link below.\n"
@@ -165,7 +169,8 @@ const lang = {
     "ResourceNotFound": "Resource not found",
     "InvalidFoundState": "Invalid found state",
     "UnexpectedApiError": "Unexpected server error",
-    "InvalidToken": "Invalid token"
+    "InvalidToken": "Invalid token",
+    "InvalidCaptcha": "Something is wrong with the captcha"
   },
 
   // Errores de cliente
@@ -177,7 +182,8 @@ const lang = {
     "page_not_found": "That page doesn't exist",
     "offline": "You are offline",
     "something_wrong": "Something is bad",
-    "server_fail": "Something failed in the server"
+    "server_fail": "Something failed in the server",
+    "captcha_fail": "Something went wrong verifying captcha"
   },
 
   "close": "close",
@@ -229,6 +235,16 @@ const lang = {
     "modal6": {
       "title": "Data already existing",
       "text": "Your device data has been sended before"
+    }
+  },
+
+  "pet_success": {
+    "page": {
+      "title": "Post successfully created",
+      "text1": "Your post is ready for everyone to know it, but first you have to do one last step: validation.",
+      "text2": "For that reason, we sent you an email to __mail__. There you will find a link for doing that (with just a few taps) and another one for access directly to the pet editing.",
+      "text3": "We know how you feel and be sure that we will do our best to find your pet.",
+      "button": "Get back to start"
     }
   }
 }

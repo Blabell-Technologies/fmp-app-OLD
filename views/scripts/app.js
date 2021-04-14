@@ -615,3 +615,31 @@ const push_subscribe = async (reg) => {
 		}).catch(e => {/* console.log(e) */});
 	}
 }
+
+
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - -
+// - CAPTCHAS                                    -
+// - - - - - - - - - - - - - - - - - - - - - - - -
+
+let captcha_success = false;
+
+async function on_captcha_success(res) {
+
+	try {
+		let url = new URL(window.location.origin + '/api/captcha/verify');
+				url.searchParams.append('hcaptcha_response', res);
+	
+		let request = await fetch(url);
+				request = await request.json();
+
+		if (!request.success) throw new Error();
+
+		captcha_success = true;
+		return request;
+
+	} catch (error) {
+		console.error(error);
+	}
+}
