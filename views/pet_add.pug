@@ -42,20 +42,11 @@ html#fmp(lang=lang.iso639)
         #pet
             #generalinfo
                 h3= lang.dictionary.general_information
-                .custom-select.custom-animals
-                    label(for="pet_animal")
-                        span= lang.dictionary.animal
-                    select(class="addpet", id="pet_animal")
-                        option(value="none")= lang.dictionary.select
-                .custom-select.custom-races.optional
-                    label(for="pet_race")
-                        span= lang.dictionary.pet_race
-                    select(class="addpet optional", id="pet_race")
-                        option(value="none")= lang.dictionary.select
+                +select('addpet', 'pet_animal', lang.dictionary.animal)
+                +select('addpet', 'pet_race', lang.dictionary.pet_race, true)
                 div.custom-files
                     span(required)= lang.dictionary.photos
                     #photo_list
-                        +input('addpet', 'pet_photo_0', lang.dictionary.photos, 'file')
                 +input('addpet', 'pet_name', lang.dictionary.pet_name)
                 +input('addpet', 'disappearance_date', lang.dictionary.disappearance_date, 'datetime-local')
                 +input('addpet', 'disappearance_place', lang.dictionary.disappearance_place, 'place')

@@ -1,9 +1,66 @@
 import * as lib from '/scripts/lib.js';
 import alert from '/lib/dist/alerts.class.js';
-// import { cmp } from 'geoip-lite';
-// import { config } from 'node:process';
+import { Compleshon } from '/lib/compleshon.class.js';
+import { Select } from '/lib/select.class.js';
 
 
+
+async function get_races(type, animal) {
+  
+  // Genera la URL
+  const create_url = () => {
+    let url = new URL(window.location.origin + '/api');
+    if (type == 'animal') url.pathname += '/animals/get'; else url.pathname += '/races/get/' + animal;
+    return url;
+  }
+
+  // Hace la petición
+  const request = async (url) => {
+    let request = await fetch(url);
+    if (request.status >= 500) throw 'wtf are u doing reading this shit';
+    request = await request.json();
+    return request;
+  }
+
+  // Adapta la información al formato que los select necesitan
+  const parse_data = (data, lang_path) => {
+    let result = [];
+    for (const item of data) {
+      let parsed_item = { name: lang_path[item], value: item }
+      result.push(parsed_item);
+    }
+    return result;
+  }
+
+  // Maneja el error si lo hay
+  const handle_error = () => {
+    switch(type) {
+      case 'animal':
+        alert.fatal({
+          icon: 'icon-thumb-down',
+          title: lang.clienterror.went_wrong,
+          buttons: [
+            { text: lang.retry, action: () => location.reload() },
+            { text: lang.goback, action: () => window.history.back()}
+          ]
+        });
+        break;
+      default: alert.warn({msg: lang.clienterror.something_wrong}); break;
+    }
+  }
+
+  // Ruta hasta las entradas del lenguaje necesarias dependiendo de si es un animal o una raza
+  const lang_path = (type == 'animal') ? lang.animals : lang.races[animal];
+
+  try {
+    let url = create_url();
+    let data = await request(url);
+    data = parse_data(data, lang_path);
+    return data;
+  } catch (error) {
+    handle_error()
+  }
+}
 
 
 // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -65,6 +122,7 @@ async function set_page() {
 
     // Formato
     pet_info = format_api_data(decoded);
+    console.log(pet_info);
 
     // Información ordenada adecuada a la creación de la página
     const ordered_info = skeleton(pet_info);
@@ -73,101 +131,41 @@ async function set_page() {
     description(ordered_info);
 
     // Obtiene la lista de razas
-    await get_race();
+    const races = await get_races('breed', pet_info.animal);
+    new Select('#pet_race', {
+      keyword: 'breed',
+      default: pet_info.race,
+      title: lang.pet_race,
+      options: races
+    });
 
-    // Genera los selects personalizados
-    create_select();
+    let owner_home = ordered_info.general_information.owner_home;
+    let owner_home_config = owner_home != undefined ? { 
+      default: {
+        coordinates: owner_home.coordinates[0] + ' ' + owner_home.coordinates[1],
+        address: owner_home.address
+      }
+    } : {};
+
+    new Compleshon('#owner_home', owner_home_config);
+
+    let disappearance_place = ordered_info.general_information.disappearance_place;
+    let disappearance_place_config = disappearance_place != undefined ? { 
+      default: {
+        coordinates: disappearance_place.coordinates[0] + ' ' + disappearance_place.coordinates[1],
+        address: disappearance_place.address
+      }
+    } : {};
+    new Compleshon('#disappearance_place', disappearance_place_config);
 
     // Añade detalles de los inputs
     set_optionals();
-    
-    const owner_address = new autoComplete({ 
-      selector: "#owner_home",
-      threshold: 3,
-      debounce: 450,
-      data: { 
-        src: async () => { 
-          const query = document.getElementById("owner_home").value;
-    
-          // Peticiónado de datos a photon
-          const photon_request = await fetch(`https://photon.komoot.io/api/?q=${query}&lat=-34.60367685025505&lon=-58.38159853604474&limit=5`);
-          /** Decodificación de la respuesta de la petición}
-           * @typedef {{coordinates: [number, number], type: 'Point'}} Geometry
-           * @typedef {{ osm_id: number, osm_key: string, osm_type: string, osm_value: string, city: string, country: string, countrycode: string, county: string, district: string, name: string, postcode: string, state: string, type: string, housenumber: string, street: string, suburb: string }} Properties
-           * @typedef {{ geometry: Geometry, properties: Properties, type: 'Feature' }} GeoJSON
-           * @type {{features: Array.<GeoJSON>}}
-           */
-          let photon_features = await photon_request.json();
-    
-          // Por cada elemento dentro de features ...
-          const features = photon_features.features.map(feature => {
-            // Descomponemos el elemento en geometry y properties
-            const { geometry, properties } = feature;
-        
-            /** Obtenemos la calle o el nombre de la caracteristica */ let title = [properties.street || properties.name];
-            /** Si hay un numero de casa lo añadimos */ if (properties.housenumber != undefined) title.push(properties.housenumber);
-        
-            /** Unimos el titulo mediante espacios */ title = title.join(' ');
-        
-            /** @type {Array.<string>} Descripción de la caracteristica */ let description = [];
-            /** Compobamos y añadimos el barrio o suburbio */ if (properties.suburb || properties.district) description.push(properties.suburb || properties.district);
-            /** Compobamos y añadimos la ciudad */ if (properties.city) description.push(properties.city);
-            /** Comprobamos el estado o el distrito */ if (properties.state || properties.state_district) description.push(properties.state || properties.state_district);
-        
-            /** Unimos todos los elementos de la descripción */ description = description.join(', ');
-        
-            /** Coordenadas de la caracteristica */ 
-            const coordinates = [geometry.coordinates[1], geometry.coordinates[0]];
-        
-            /** Titulo compuesto (titulo, descripcion) */ const composed_title = [title, description].join(', ');
-        
-            return JSON.stringify({ title, description, composed_title, coordinates });
-          });
-    
-          // const ds = ['{title: "uno"}', 'Dos', 'Tres'];
-    
-          // console.log(features);
-          // console.log(ds);
-    
-          return features;
-        },
-        cache: false
-      },
-      noResults: (dataFeedback, generateList) => {
-        // Generate autoComplete List
-        generateList(owner_address, dataFeedback, dataFeedback.results);
-        // No Results List Item
-        const result = document.createElement("li");
-        result.setAttribute("class", "no_result");
-        result.setAttribute("tabindex", "1");
-        result.innerHTML = `<span style="display: flex; align-items: center; font-weight: 100; color: rgba(0,0,0,.5);">Found No Results for "${dataFeedback.query}"</span>`;
-        document.querySelector(`#${owner_address.resultsList.idName}`).appendChild(result);
-      },
-      onSelection: (event) => {
-        const selection = JSON.parse(event.selection.value);
-        const elem = document.querySelector('#owner_home');
-    
-        elem.dataset.coordinates = selection.coordinates;
-    
-        document.querySelector('#owner_home').blur();
-        document.querySelector("#owner_home").value = `${selection.title} ${selection.description}`;
-      },
-      resultItem: {                          
-        content: (data, source) => {
-          const decoded = JSON.parse(data.match);
-          source.innerHTML = `<div><i class="icon-map-pin"></i>${decoded.title}</div><span>${decoded.description}</span>`;
-        },
-        element: "li"
-      },
-      searchEngine: (_query, record) => { return record },
-      highlight: true
-    });
 
     // Obtiene los valores actuales para comparar
     default_values = lib.getData('editpet', true);
 
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     // En caso de error muestra un error fatal diciendo que hubo un error
     alert.fatal({
       icon: 'icon-thumb-down',
@@ -350,9 +348,7 @@ const input_info = (key, value) => {
     // Si es un selector de razas
     case 'pet_race':
 
-      // Crea el contenedor custom
-      let cstm = document.createElement('div');
-          cstm.classList.add('custom-select', 'custom-races', 'optional');
+      lbl.classList.add('custom_select');
 
       // Crea un select
       let slct = document.createElement('select');
@@ -361,11 +357,10 @@ const input_info = (key, value) => {
           slct.id = key;
 
       // Se junta todo en orden
-      cstm.appendChild(lbl);
-      cstm.appendChild(slct);
+      lbl.appendChild(slct);
 
       // Se devuelve
-      return cstm;
+      return lbl;
 
 
     // Si es la recompensa
@@ -412,136 +407,9 @@ function add_data(elem) {
   footer.parentNode.insertBefore(elem, footer);
 }
 
-// Obtiene la lista de razas
-const get_race = async () => {
-
-  const races = document.getElementById('pet_race');
-  
-  try {
-
-    // Petición de razas al servidor
-    let request = await fetch(`/api/races/get/${pet_info.animal}`);
-    request = await request.json();
-    request = format_api_data(request);
-
-    // console.log('RACES:', request);
-
-    // Eliminar todos las opciones actuales
-    while (races.firstChild) {races.firstChild.remove();};
-    
-    const item = (name, value) => {
-      let elem = document.createElement("option");
-          elem.innerHTML = name;
-          elem.setAttribute("value", value != undefined ? value : name);
-      return elem;
-    }
-  
-    // Si la raza está especificada desde antes la añade como seleccionada
-    if (pet_info.pet_race == null) { races.append(item(lang.select, 'none')); } 
-    else { races.append(item(lang.races[pet_info.animal][pet_info.race])); }
-    for (let i = 0; i < request.length - 1; i++) races.append(item(lang.races[pet_info.animal][request[i]]));
-  } catch(error) {
-    // console.log(error);
-    alert.fatal({
-      icon: 'icon-thumb-down',
-      title: lang.clienterror.cant_get_info
-    });
-  }
-}
-
-
 window.onload = () => set_page();
 
 
-// - - - - - - - - - - - - - - - - - - - - - - - -
-// - SELECTS PERSONALIZADOS                      -
-// - - - - - - - - - - - - - - - - - - - - - - - -
-
-// Crea selects personalizados
-function create_select() {
-    var x, i, j, l, ll, selElmnt, a, b, c;
-    /* Look for any elements with the class "custom-select": */
-    x = document.getElementsByClassName("custom-select");
-    l = x.length;
-    for (i = 0; i < l; i++) {
-      selElmnt = x[i].getElementsByTagName("select")[0];
-      ll = selElmnt.length;
-      /* For each element, create a new DIV that will act as the selected item: */
-      a = document.createElement("DIV");
-      a.setAttribute("class", "select-selected");
-      a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-      x[i].appendChild(a);
-      /* For each element, create a new DIV that will contain the option list: */
-      b = document.createElement("DIV");
-      b.setAttribute("class", "select-items select-hide");
-      for (j = 1; j < ll; j++) {
-        /* For each option in the original select element,
-        create a new DIV that will act as an option item: */
-        c = document.createElement("DIV");
-        c.innerHTML = selElmnt.options[j].innerHTML;
-        c.addEventListener("click", function() {
-            /* When an item is clicked, update the original select box,
-            and the selected item: */
-            var y, i, k, s, h, sl, yl;
-            s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-            sl = s.length;
-            h = this.parentNode.previousSibling;
-            for (i = 0; i < sl; i++) {
-              if (s.options[i].innerHTML == this.innerHTML) {
-                s.selectedIndex = i;
-                h.innerHTML = this.innerHTML;
-                y = this.parentNode.getElementsByClassName("same-as-selected");
-                yl = y.length;
-                for (k = 0; k < yl; k++) {
-                  y[k].removeAttribute("class");
-                }
-                this.setAttribute("class", "same-as-selected");
-                break;
-              }
-            }
-            h.click();
-        });
-        b.appendChild(c);
-      }
-      x[i].appendChild(b);
-      a.addEventListener("click", function(e) {
-        /* When the select box is clicked, close any other select boxes,
-        and open/close the current select box: */
-        e.stopPropagation();
-        closeAllSelect(this);
-        this.nextSibling.classList.toggle("select-hide");
-        this.classList.toggle("select-arrow-active");
-      });
-    }
-}
-
-
-// Cierra todos los selects cuando sea necesario
-function closeAllSelect(elmnt) {
-  /* A function that will close all select boxes in the document,
-  except the current select box: */
-  var x, y, i, xl, yl, arrNo = [];
-  x = document.getElementsByClassName("select-items");
-  y = document.getElementsByClassName("select-selected");
-  xl = x.length;
-  yl = y.length;
-  for (i = 0; i < yl; i++) {
-    if (elmnt == y[i]) {
-      arrNo.push(i)
-    } else {
-      y[i].classList.remove("select-arrow-active");
-    }
-  }
-  for (i = 0; i < xl; i++) {
-    if (arrNo.indexOf(i)) {
-      x[i].classList.add("select-hide");
-    }
-  }
-}
-
-
-// Cierra los select cuando se haga click en algún lado del documento
-document.addEventListener("click", closeAllSelect);
 
 // - - - - - - - - - - - - - - - - - - - - - - - -
 // - ENVÍO DE LA INFORMACIÓN                     -

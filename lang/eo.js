@@ -1,5 +1,6 @@
 const lang = {
   "this": "Esperanto",
+  "iso639": "eo",
 
   // Globales
   "app_promotion": "Instalu nian programon. Ĝi estas tre malpeza kaj funkcias eksterrete!",
@@ -23,6 +24,7 @@ const lang = {
   "information": "Informoj",
   "further_reading": "Legu pli",
   "security": "Sekureco",
+  "clear_cache": "Malplenigi kaŝmemoron",
 
   // Pagina principal
   "search_bar": "Serĉu perditajn dorlotbestojn",

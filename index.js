@@ -33,7 +33,7 @@ process.env.dirname = __dirname;
 		etag: true,
 		lastModified: true,
 		setHeaders: (res) => {
-			res.setHeader('Cache-Control', 'public, max-age=31536000, immutable'),
+			res.setHeader('Cache-Control', 'no-store'),
 			res.setHeader('X-Content-Type-Options', 'nosniff');
 			res.removeHeader('X-Powered-By');
 		}
@@ -119,7 +119,7 @@ process.env.dirname = __dirname;
 
 		try {
 			// Creación de url
-			let url = new URL(`http://192.168.1.45:3001/api/pets/exp/post/${req.params.id}`);
+			let url = new URL(`http://127.0.0.1:3001/api/pets/exp/post/${req.params.id}`);
 				url.searchParams.append('include', 'owner_name');
 				url.searchParams.append('include', 'pet_name');
 				url.searchParams.append('include', 'pictures');

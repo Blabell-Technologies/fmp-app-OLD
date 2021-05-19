@@ -1,5 +1,6 @@
 const lang = {
   "this": "Español",
+  "iso639": "es-ES",
 
   // Globales
   "app_promotion": "Instalá nuestra app. ¡Es super ligera y funciona sin conexión!",
@@ -23,6 +24,7 @@ const lang = {
   "information": "Información",
   "further_reading": "Conocé más",
   "security": "Seguridad",
+  "clear_cache": "Limpiar caché",
 
   // Pagina principal
   "search_bar": "Buscá mascotas perdidas",

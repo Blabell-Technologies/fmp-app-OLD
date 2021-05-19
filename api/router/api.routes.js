@@ -53,10 +53,7 @@
 
   // Mascotas cercanas a tu ubicación
   router.get('/pets/nearby', async (req, res) => {
-    try { 
-      var result = await fmp.pets.nearby(req.query);
-      return res.json(result); 
-    }
+    try {  var result = await fmp.pets.nearby(req.query); return res.json(result); }
     catch (err) { print.error(err); return res.json(err); }
   });
 
@@ -77,7 +74,7 @@
     try {
 
       // Generación de url para pedir los datos personalizados
-      let url = new URL(`https://api.foundmypet.org/pets/insider/post/${req.params.id}`);
+      let url = new URL(`${process.env.API_SERVER}pets/insider/post/${req.params.id}`);
 
       // En caso de que existan includes o excludes los añade
       if (req.query.include != undefined) url.searchParams.append('include', req.query.include.join(','));
@@ -130,7 +127,7 @@
   // Confirmar la publicación de un post
   router.put('/pets/confirm/:uuid', async (req, res) => {
     try {
-      let url = new URL(`https://api.foundmypet.org/pets/insider/verify/${req.params.uuid}`);
+      let url = new URL(`${process.env.API_SERVER}pets/insider/verify/${req.params.uuid}`);
       const request = await fetch(url, { method: 'PUT', headers: { 'access-token': 'B2wmZLREFsk2c11' } });
       const decoded = await request.json();
       if (!request.ok) return res.status(request.status).json(decoded);

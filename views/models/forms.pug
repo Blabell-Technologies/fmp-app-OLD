@@ -61,12 +61,10 @@ mixin _input(config, opt = false)
         input(value=(config.value != undefined) ? config.value : null, name=config.name, id=config.name, class=opt ? config.classname + ' optional' : config.classname, type=(config.type != undefined) ? config.type : 'text')
 
 
-mixin select(name, options, placeholder, classname, opt, label = true)
-  if (label == true)
-    label(for=name)= placeholder
-  select(name=name, id=name, class=opt ? classname + ' optional' : classname)
-    each option in options
-      option(value=option)= option
+mixin select(classname, name, placeholder, opt = false)
+  label(class="custom_select", for=name)
+    span= placeholder
+    select(name=name, id=name, class=opt ? classname + ' optional' : classname)
 
 mixin form(entries, formname)
   for entry in entries

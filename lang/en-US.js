@@ -1,5 +1,6 @@
 const lang = {
   "this": "English",
+  "iso639": "en-US",
 
   // Globales
   "app_promotion": "Install our app. It's super lightweight and works offline!",
@@ -23,7 +24,8 @@ const lang = {
   "information": "Information",
   "further_reading": "Further reading",
   "security": "Security",
-
+  "clear_cache": "Clear cache",
+  
   // Pagina principal
   "search_bar": "Search lost pets",
   "last_cases": "Lastest cases",

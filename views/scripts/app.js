@@ -6,9 +6,8 @@ let app_version;
 
 
 
-
 // - - - - - - - - - - - - - - - - - - - - - - - -
-// - FUNCIONES GLOBALES			                 -
+// - FUNCIONES GLOBALES			                 		 -
 // - - - - - - - - - - - - - - - - - - - - - - - -
 
 
@@ -91,7 +90,8 @@ function support_us(target) {
 	ctnr.appendChild(title);
 	ctnr.appendChild(cappl);
   
-	document.querySelector(target).appendChild(ctnr);
+	target = typeof(target) == 'string' ? document.querySelector(target) : target;
+	target.appendChild(ctnr);
 }
 
 
@@ -123,7 +123,6 @@ function getCookie(cname) {
 	}
 	return "";
 }
-
 
 
 // Convierte parametros del objeto con información de una mascota a un formato legible
@@ -182,7 +181,7 @@ function set_optionals() {
 	}
 
 	for (const opt_select of opt_selects) {
-		const span = opt_select.previousSibling.querySelector('span');
+		const span = opt_select.previousSibling;
 		span.dataset.opt_text = lang.optional;
 	}
 
@@ -193,429 +192,6 @@ function set_optionals() {
 		place_input.placeholder = lang.places_hint;
 	}
 }
-
-
-
-
-// - - - - - - - - - - - - - - - - - - - - - - - -
-// - ACTUALIZACIÓN DE LA APP		             -
-// - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-// Promoción de la actualización de la app
-function promote_app_update() {
-
-	// Obtención del cuerpo
-	const body = document.getElementsByTagName('body')[0];
-
-	// En caso de que el promotor de la instalación no esté, se añade
-	if (document.getElementById('appupdate') == undefined) {
-
-		// Creación del contenedor
-		let ctr = document.createElement('div');
-			ctr.id = 'appupdate';
-		
-		// Creación de la cruz
-		let x = document.createElement('span');
-			x.classList.add('icon-close');
-			x.addEventListener('click', (e) => {
-				ctr.remove();
-			})
-		
-		// Creación del texto
-		let text = document.createElement('p');
-			text.innerHTML = lang.app_update;
-	
-		// Creación del botón
-		let btn = document.createElement('button');
-			btn.innerHTML = lang.update;
-			btn.addEventListener('click', (e) => {
-
-				// Al tocarlo le envía un mensaje al service worker que dispara la actualización
-				if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage({ version: 'update' });
-			});
-	
-		// Añadido de los elementos al contenedor
-		ctr.append(x);
-		ctr.append(text);
-		ctr.append(btn);
-	
-		// Añadido del contenedor al cuerpo
-		body.prepend(ctr);
-	}
-}
-
-
-// Actualiza el service worker (android)
-async function update_sw() {
-	if (navigator.serviceWorker.controller) new_worker.postMessage({action: 'skipWaiting', lang: sw_lang, version: app_version });
-}
-
-
-// Actualiza el service worker (iOS)
-async function ios_update_sw() {
-	if (navigator.serviceWorker.controller) new_worker.postMessage({lang: sw_lang, version: app_version });
-}
-
-
-// Obtiene la última versión
-async function check_version() {
-
-	// Si hay conexión
-	if (navigator.onLine) {
-
-		try {
-
-			// Solicita la versión al servidor
-			const request = await fetch('/api/version');
-			const decoded = await request.json();
-		
-			// console.log('LASTEST VERSION:', decoded.version);
-
-			return decoded.version;
-
-		} catch(error) { console.log('[CLIENT] Cannot search for updates'); }
-	}
-}
-
-
-// Actualiza la aplicación
-async function update_app() {
-
-	// Obtiene todos los service workers registrados
-	navigator.serviceWorker.getRegistrations().then(async function(regs) {
-
-		// Los elimina
-		for(let reg of regs) {
-			reg.unregister().then(async () => {
-				location.reload();
-			}).catch((error) => console.log('[CLIENT] Service worker unregistering failed', error)); }	
-		}).catch((error) => console.log('[CLIENT] Service worker unregistering failed', error));
-}
-
-
-
-
-// - - - - - - - - - - - - - - - - - - - - - - - -
-// - INSTALACIÓN DE LA APP		                 -
-// - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-// Variable que contendrá los eventos de instalación
-let custom_prompt;
-
-
-function ios_promote_app_install() {
-
-	let body = document.getElementsByTagName('body')[0];
-
-	// En caso de que el promotor de la instalación no esté, se añade
-	if (document.getElementById('iosappinstall') == undefined) {
-
-		page.classList.add('noscroll');
-	
-		// Creación del contenedor
-		let ctr = document.createElement('div');
-			ctr.id = 'iosappinstall';
-		
-		// Creación de la cruz
-		let x = document.createElement('span');
-			x.classList.add('icon-close');
-			x.addEventListener('click', (e) => {
-				setCookie('pwa_app', 'denegated', 7);
-				page.classList.remove('noscroll');
-				ctr.remove();
-			})
-		
-		// Creación del título
-		let title = document.createElement('h1');
-			title.innerHTML = lang.ios_app_promotion;
-
-		let textone = document.createElement('p');
-			textone.innerHTML = lang.ios_app_promotion_textone;
-			
-		let texttwo = document.createElement('p');
-			texttwo.innerHTML = lang.ios_app_promotion_texttwo;
-
-		// Añadido de los elementos al contenedor
-		ctr.append(x);
-		ctr.append(title);
-		ctr.append(textone);
-		ctr.append(texttwo);
-	
-		// Añadido del contenedor al cuerpo
-		body.prepend(ctr);
-	}
-}
-
-
-// Promoción de la instalacion de la app
-function promote_app_install() {
-
-	let body = document.getElementsByTagName('body')[0];
-
-	// En caso de que el promotor de la instalación no esté, se añade
-	if (document.getElementById('appinstall') == undefined) {
-
-		// Creación del contenedor
-		let ctr = document.createElement('div');
-			ctr.id = 'appinstall';
-		
-		// Creación de la cruz
-		let x = document.createElement('span');
-			x.classList.add('icon-close');
-			x.addEventListener('click', (e) => {
-				setCookie('pwa_app', 'denegated', 7);
-				ctr.remove();
-			})
-		
-		// Creación del texto
-		let text = document.createElement('p');
-			text.innerHTML = lang.app_promotion;
-	
-		// Creación del botón
-		let btn = document.createElement('button');
-			btn.innerHTML = lang.install;
-			btn.addEventListener('click', (e) => install_app());
-	
-		// Añadido de los elementos al contenedor
-		ctr.append(x);
-		ctr.append(text);
-		ctr.append(btn);
-	
-		// Añadido del contenedor al cuerpo
-		body.prepend(ctr);
-	}
-}
-
-
-// Detecta cuando la aplicación es instalable
-window.addEventListener('beforeinstallprompt', (e) => {
-
-	// Lo notifica en consola
-	// console.log('[INFO] App install available');
-
-	// Evita la reacción predefinida del navegador
-	e.preventDefault();
-
-	// Iguala el evento de instalacion a una variable personalizada
-	custom_prompt = e;
-
-	// Obtiene la cookie que determina si el usuario antes negó la instalación
-	const pwa_app = getCookie('pwa_app');
-
-	// En caso de que no la haya negado, muestra el cuadro proponiendola
-	if (pwa_app == undefined || pwa_app == null || pwa_app == '') promote_app_install();
-});
-
-
-// Instala la aplicación
-async function install_app(e) {
-
-	custom_prompt = custom_prompt || e;
-
-	// Muestra el cuadro de instalación
-	custom_prompt.prompt();
-
-	// Obtiene la respuesta
-	const { outcome } = await custom_prompt.userChoice;
-
-	// La notifica en consola
-	// console.log('[INFO] User response to app install:', outcome);
-
-	// En caso de que sea positiva
-	if(outcome == 'accepted') {
-
-		// Elimina el cuadro proponiendola
-		document.getElementById('appinstall').remove();
-
-		// Genera una cookie aclarando que está instalada
-		setCookie('pwa_app', 'installed', 7);
-
-		// Elimina los rastros
-		custom_prompt = null;
-	}
-}
-
-
-// Al cargar la página hace las comprobaciones necesarias para promover la instalación en iOS
-window.addEventListener('load', async () => {
-
-	// Comprueba que sea un dispositivo iOS
-	const is_iOS = () => {
-		return [
-			'iPad Simulator',
-			'iPhone Simulator',
-			'iPod Simulator',
-			'iPad',
-			'iPhone',
-			'iPod'
-		].includes(navigator.platform)
-		|| (navigator.userAgent.includes("Mac") && "ontouchend" in document);
-	}
-
-	// Comprueba que la app no esté instalada en dicho dispositivo
-	const is_standalone = () => ('standalone' in window.navigator) && (window.navigator.standalone);
-
-	// Comprueba que la instalación no haya sido negada previamente
-	const should_promote = () => {
-		const pwa_app = getCookie('pwa_app');
-		return (pwa_app != 'denegated') && (pwa_app != 'installed');
-	}
-
-	// En caso de que sea pida de iOS y la app no esté instalada, la ofrece
-	if (is_iOS() && !is_standalone() && should_promote()) ios_promote_app_install();
-
-	// Oculta el footer cuando algún input esté activo
-	footer_hiding();
-});
-
-
-
-// - - - - - - - - - - - - - - - - - - - - - - - -
-// - PERMISOS DE LA APP			                 -
-// - - - - - - - - - - - - - - - - - - - - - - - -
-
-// Solicita permisos para mostrar notificaciones
-const sw_notification_permission = async (reg) => {
-
-	// Hace la petición
-    const permission = await window.Notification.requestPermission();
-
-	// console.log('[CLIENT][PERMISION STATUS]: ' + permission);
-
-	// Imprime en consola información sobre la decisión del cliente
-  // if(permission !== 'granted') console.log('[CLIENT] Permission not granted for Notification');
-	// else { await push_subscribe(reg); console.log('[CLIENT] Permission granted for Notification'); };
-	if (permission === 'granted' && navigator.serviceWorker.controller) await push_subscribe(reg);
-}
-
-
-
-
-// - - - - - - - - - - - - - - - - - - - - - - - -
-// - SERVICE WORKER				                 -
-// - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-// Almacena los eventos del nuevo service worker si hay una actualización
-let new_worker;
-
-
-// Push Notifications
-const PUBLIC_VAPID_KEY = 'BOSzT7DyMkEwzE27m1lGmGeg7nWYdFE552Y9UxqAyGT2JiJOgTTuGTFIrOHzvCGlaKBZaJmD4RNjtPQ6BbryUSY';
-
-
-// Registro del Serivce Worker
-function sw_register() {
-
-	// Registro
-	navigator.serviceWorker.register('/service-worker')
-
-	// Al instante de registrar el service worker
-	.then(async reg => {
-
-		// console.log('SERVICE WORKER INSTALLED');
-
-		// Si el usuario todavía no aceptó las notificaciones, pregunta y se suscribe a los push
-		if (Notification.permission == 'default') sw_notification_permission(reg);
-
-		// Caso contrario, solo se suscribe a los push
-		else if (navigator.serviceWorker.controller) sw_notification_permission(reg);
-
-		// Escucha actualizaciones
-		// reg.addEventListener('updatefound', () => {
-
-		// 	// Asigna el evento a una variable global
-		// 	new_worker = reg.installing;
-
-		// 	// Escucha cuando se modifica el estado
-		// 	new_worker.addEventListener('statechange', () => {
-
-		// 		// Evalúa entre estados posibles
-		// 		switch (new_worker.state) {
-
-		// 			// Si está instalado notifica que hay una nueva actualización
-		// 			case 'installed':
-		// 				if (navigator.serviceWorker.controller) {
-		// 					// console.log('[SW] New version available');
-		// 					promote_app_update();
-		// 				}
-		// 				break;
-		// 		}
-		// 	})
-		// })
-	})
-	.catch(err => console.error('[SW] Registering failed', err));
-
-	// Detector de cambio de controlador
-	navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
-
-	// Medio para recibir mensajes
-	navigator.serviceWorker.addEventListener('message', e => {
-		// console.log('[CLIENT] Message:', e);
-		if (e.data.msg != undefined) {
-			switch (e.data.msg) {
-				case 'reload': location.reload(); break;
-				case 'update': promote_app_update(); break;
-				case 'updatenow': update_app(); break;
-			}
-		}
-	});
-
-	// Se envía al service worker el lenguaje actual
-	navigator.serviceWorker.ready.then(async (reg) => {
-		app_version = await check_version();
-		reg.active.postMessage({ lang: sw_lang, version: app_version });
-	});
-}
-
-
-// Comprueba que el service worker esté disponble y ejecuta las acciones para instalarlo
-if ('serviceWorker' in navigator) {
-	sw_register();
-	} else {
-	console.log('[CLIENT] Service worker not supported');
-}
-
-
-// Borra el caché
-const ccache = () => {
-	caches.keys()
-	.catch((e) => {
-		console.error(e);
-	})
-	.then((results) => {
-		for (const cdel of results) {
-			caches.delete(cdel)
-			.then((result) => {
-				if ( !result ) throw 'Unknown error';
-				// console.log(`[CLIENT] Cache ${cdel} deleted successfuly`);
-			})
-			.catch((e) => {
-				console.error(e);
-			});
-		}
-	})
-}
-
-
-// Se suscribe al servicio de notificaciones push
-const push_subscribe = async (reg) => {
-	if (navigator.onLine) {
-		const subscription = await reg.pushManager.subscribe({
-			userVisibleOnly: true,
-			applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
-		});
-	
-		await fetch('/api/notifications/subscription', { 
-			method: 'POST',
-			body: JSON.stringify(subscription),
-			headers: { "Content-Type": "application/json" }
-		}).catch(e => {/* console.log(e) */});
-	}
-}
-
 
 
 
@@ -643,3 +219,218 @@ async function on_captcha_success(res) {
 		console.error(error);
 	}
 }
+
+
+
+class App {
+
+	constructor() {
+		this.body = document.getElementsByTagName('body')[0];
+		this.new_worker;
+		this.custom_prompt;
+		this.worker;
+		this.push_subscription;
+		this.PUBLIC_VAPID_KEY = 'BOSzT7DyMkEwzE27m1lGmGeg7nWYdFE552Y9UxqAyGT2JiJOgTTuGTFIrOHzvCGlaKBZaJmD4RNjtPQ6BbryUSY';
+		this.app_version = '';
+	}
+
+	// Inicia la app
+	start() {
+
+		// Determina si la aplicación es instalable e inicia el proceso
+		const on_installable = () => {
+			window.addEventListener('beforeinstallprompt', (e) => {
+				e.preventDefault();
+				this.custom_prompt = e;
+				const pwa_app = getCookie('pwa_app');
+				if (pwa_app == '') this.promote_app_install();
+			});
+		}
+
+		if ('serviceWorker' in navigator) this.register_service_worker();
+		else console.log('[CLIENT] Service worker not supported');
+
+		if (navigator.serviceWorker.controller) {
+			navigator.serviceWorker.controller.postMessage({version: 'check'});
+		}
+
+		on_installable();
+		this.handle_update();
+	}
+
+	async handle_update() {
+		this.new_worker = await navigator.serviceWorker.getRegistration();
+		if (this.new_worker.waiting) {
+			this.promote_app_update();
+		}
+	}
+
+	// Le da al usuario la opción de instalar la app
+	promote_app_install() {
+		if (document.getElementById('appinstall') == undefined) {
+			this.create_header({
+				id: 'appinstall',
+				text: lang.app_promotion,
+				button: lang.install,
+				on_close: function() {
+					setCookie('pwa_app', 'denegated', 7);
+				},
+				on_accept: () => {
+					this.install();
+				}
+			})
+		}
+	}
+
+	// Da opción a actualizar la app
+	promote_app_update() {
+		if (document.getElementById('appupdate') == undefined) {
+			this.create_header({
+				id: 'appupdate',
+				text: lang.app_update,
+				button: lang.update,
+				on_accept: () => {
+					this.update(this.new_worker);
+				}
+			})
+		}
+	}
+
+	// Registra y maneja el service worker
+	async register_service_worker() {
+
+		// Solicita la aceptación de notificaciones
+		const push_permission = (reg) => {
+			if (Notification.permission == 'default' || navigator.serviceWorker.controller) this.sw_notification_permission(reg);
+		}
+
+		// Callback al recibir un mensaje desde el service worker
+		const on_message = (e) => {
+			// console.log('[CLIENT] Message:', e);
+			if (e.data.msg != undefined) {
+				switch (e.data.msg) {
+					case 'reload': location.reload(); break;
+					default: this.app_version = e.data.msg; break;
+				}
+			}
+		}
+		
+
+		this.worker = navigator.serviceWorker.register('/service-worker')
+		.then(async (e) => { push_permission(e); return e; })
+		.catch(err => console.error('[SW] Registering failed', err));
+
+		navigator.serviceWorker.addEventListener('message', (e) => on_message(e));
+		navigator.serviceWorker.ready.then(async (reg) => reg.active.postMessage({ lang: sw_lang }));
+	}
+
+	// Genera headers
+	create_header({id, text, button, on_close, on_accept}) {
+
+		let ctnr = document.createElement('div');
+				ctnr.id = id;
+		
+		let x = document.createElement('span');
+				x.classList.add('icon-close');
+				x.addEventListener('click', () => {
+					if (on_close != undefined) on_close();
+					ctnr.remove();
+				});
+		
+		let txt = document.createElement('p');
+				txt.innerHTML = text;
+	
+		let btn = document.createElement('button');
+				btn.innerHTML = button;
+				btn.addEventListener('click', () => { if (on_accept != undefined) on_accept(); });
+	
+		ctnr.append(x);
+		ctnr.append(txt);
+		ctnr.append(btn);
+		document.getElementsByTagName('body')[0].prepend(ctnr);
+	}
+
+	// Instala la app
+	async install() {
+
+		// Muestra el cuadro de instalación
+		const install_prompt = async () => {
+			this.custom_prompt.prompt();
+			const { outcome } = await this.custom_prompt.userChoice;
+			return outcome;
+		}
+
+		// Callback cuando fue instalada la app
+		const on_installed = () => {
+			document.getElementById('appinstall').remove();
+			setCookie('pwa_app', 'installed', 7);
+			this.custom_prompt = null;
+		}
+
+
+		let user_choice = await install_prompt();
+		if(user_choice == 'accepted') on_installed();
+	}
+
+	// Acutaliza la app
+	update(registration) {
+		registration.waiting.postMessage({new_worker: 'skip_waiting'});
+	}
+
+	// Solicita al usuario permisos para notificaciones
+	async sw_notification_permission(reg) {
+		const permission = await window.Notification.requestPermission();
+		if (permission === 'granted' && navigator.serviceWorker.controller) await this.push_subscribe(reg);
+	}
+
+	// Se suscribe al servicio de notificaciones push
+	async push_subscribe(reg) {
+		if (navigator.onLine) {
+			this.push_subscription = await reg.pushManager.subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: urlBase64ToUint8Array(this.PUBLIC_VAPID_KEY)
+			});
+		
+			await fetch('/api/notifications/subscription', { 
+				method: 'POST',
+				body: JSON.stringify(this.push_subscription),
+				headers: { "Content-Type": "application/json" }
+			}).catch(e => { console.error(e); });
+		}
+	}
+
+
+	clear_cache() {
+		if (navigator.serviceWorker.controller) {
+			navigator.serviceWorker.controller.postMessage({cache_clear: true});
+		}
+	}
+
+
+	// Determina si el sistema operativo del cliente es de apple
+	get is_ios() {
+		const ios_list = [ 'iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod' ];
+		const is_ios = ios_list.includes(navigator.platform);
+		const is_mac = (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+		return is_ios || is_mac;
+	}
+
+	// Determina si se debe promover la instalación de la app
+	get should_promote() {
+		const pwa_app = getCookie('pwa_app');
+		return (pwa_app != 'denegated') && (pwa_app != 'installed');
+	}
+
+	// Determina si la app ya está instalada
+	get is_installed() {
+		return ('standalone' in window.navigator) && (window.navigator.standalone);
+	}
+
+	// Obtiene la versión
+	get version() {
+		return this.app_version;
+	}
+}
+
+let app = new App();
+app.start();

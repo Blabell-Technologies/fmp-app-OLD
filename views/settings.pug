@@ -9,9 +9,9 @@ html#fmp(lang=lang.iso639)
 		meta(name="robots", content="noindex")
 
 		script(src=`/lang/${lang.iso639}.js` type='text/javascript' defer)
-		script(src="/scripts/app.js")
-		script(src="/scripts/integrity.js", type="module")
-		script(src='/scripts/settings.js' defer)
+		script(src="/scripts/app.js" defer)
+		script(src="/scripts/integrity.js", type="module" defer)
+		script(src='/scripts/settings.js', type="module" defer)
 
 		link(rel="preconnect", href="https://fonts.gstatic.com")
 		link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap")
@@ -29,14 +29,10 @@ html#fmp(lang=lang.iso639)
 		div#body
 			div#regional
 				h3= lang.dictionary.regional
-				.custom-select
-					label(for="languageselect")= lang.dictionary.language
+				label(class="custom_select", for="languageselect")
+					span= lang.dictionary.language
 					select#languageselect
-						option(value=lang.iso639)= lang.dictionary.this
-						option(value="es-ES") Español
-						option(value="en-US") English
-						option(value="eo") Esperanto
 			div#app
 				h3= lang.dictionary.app
-				
+				button#block_clearcache= lang.dictionary.clear_cache
 		+footer()

@@ -1,9 +1,5 @@
 // VERSIÓN LA APLICACIÓN
-let app_version = '';
-
-// Último fallo registrado
-let last_fail;
-
+let app_version = '1.0.36';
 
 // Variable del lenguaje
 let sw_lang = '';
@@ -47,48 +43,49 @@ async function add_basic_resources() {
 
 
 // Limpia los caches
-const clear_cache = () => {
+const clear_cache = async () => {
 	caches.keys()
-	.catch((e) => {
-		console.error(e);
-	})
 	.then((results) => {
-		// console.log('Deleting cache,', results);
 		for (const cdel of results) {
 			caches.delete(cdel)
-			.then((result) => {
-				if ( !result ) throw 'Unknown error';
-				// console.log(`[SW] Cache ${cdel} deleted successfuly`);
-			})
+			.then((result) => { if ( !result ) throw 'Unknown error'; })
 			.catch((e) => {
 				console.error(e);
 			});
 		}
 	})
-	.then(() => add_basic_resources())
+	.catch((e) => { console.error(e); });
+}
+
+
+async function post_message(msg) {
+	const all_clients = await clients.matchAll();
+	for (const client of all_clients) client.postMessage(msg);
 }
 
 
 
 // Etapa de instalación
 self.addEventListener('install', e => {
-
-	// Notifica que se instaló correctamente
-	// console.log('[SW] Installed successfully');
-
+	e.waitUntil(console.log('[SW] Installing new worker, waiting for activation...'));
 });
 
 
 // Etapa de activación
 self.addEventListener('activate', e => {
+	
+	async function set_new_resources() {
+		console.log('[SW] Activating new worker...');
+		await clear_cache();
+		await add_basic_resources();
+		console.log('[SW] New worker ready!');
+		console.log('[SW] Reloading to apply changes...');
+		post_message({ msg: 'reload' });
+	}
+	
+	e.waitUntil(set_new_resources(e));
 
-	// Guarda en el caché los recursos básicos
-	e.waitUntil(add_basic_resources());
-
-	// Notifica que se activó correctamente
-	// console.log('[SW] Activated successfully');
-
-})
+});
 
 
 // Intercepta peticiones
@@ -136,7 +133,7 @@ self.addEventListener('fetch', async (e) => {
 								const req_type = () => fetch_res.type != 'opaque' || fetch_res.url.includes('googleapis');
 								const req_path = () => {
 									const path = url.pathname.split('/');
-									return path[2] !== 'info'|| path[1] !== 'administration' || path[3] !== 'success' || path[3] !== 'confirm';
+									return path[2] !== 'info' && path[1] !== 'administration' && path[3] !== 'success' && path[3] !== 'confirm';
 								}
 								
 								// Al pedirlo y obtenerlo correctamente, lo guarda en resources si es necesario
@@ -147,8 +144,6 @@ self.addEventListener('fetch', async (e) => {
 
 							// En caso de fallar con la petición, obtiene recursos de la carpeta offline
 							}).catch(async function(status) {
-
-								last_fail = status;
 
 								// Abre la carpeta offline
 								return caches.open('offline').then(async function(offline) {
@@ -175,7 +170,7 @@ self.addEventListener('message', async (e) => {
 
 	// Lo muestra en consola
 	// console.log('[SW] RECEIVING MESSAGE', e.data);
-
+	
 	// En caso de que sea información sobre el lenguaje lo establece como principal
 	if (e.data.lang != undefined) {
 		sw_lang = e.data.lang;
@@ -183,72 +178,10 @@ self.addEventListener('message', async (e) => {
 			return cache.addAll(resources).then(/* console.log('[SW] Added root to cache') */);
 		})
 	}
-
-	// En caso de solicitud de skipWaiting, lo hace
-	if (e.data.action === 'skipWaiting') {
-		
-		// Elimina el caché actual
-		clear_cache();
-
-		// Salta la espera activando el service worker nuevamente
-		self.skipWaiting();
-	}
-
-	// En caso de solicitud de recarga de toda la app
-	if (e.data.msg === 'reload') {
-		
-		// Elimina el caché actual
-		clear_cache();
-
-		// Le dice al cliente que está listo para recargar
-		e.source.postMessage({ msg: 'reload' });
-	}
-
-	// En caso de que haya datos de versión...
-	if (e.data.version != undefined) {
-
-		// Si no está definida en el service worker porque es la primera instalación...
-		if (app_version == '') {
-			
-			clear_cache();
-
-			// console.log('ADD SERVICE WORKER VERSION:', e.data.version);
-
-			// La define
-			app_version = e.data.version;
-
-		// Si había una version reconocida previamente...
-		} else {
-			// console.log('ACTUAL VERSION:', app_version);
-
-			// Comprueba si la nueva versión es igual a la actual
-			switch(e.data.version) {
-
-				// En caso de que sean iguales no hace nada
-				case app_version:
-					// console.log('VERSIONS ARE EQUAL');
-					break;
-
-				case 'update':
-					clear_cache();
-					app_version = '';
-					e.source.postMessage({ msg: 'updatenow' });
-					break;
-
-				case 'check':
-					e.source.postMessage({ msg: app_version });
-					break;
-
-				// En caso de que sean diferentes elimina el caché y solicita la actualización de la app
-				default:
-					// console.log('VERSIONS ARE DIFFERENT');
-					e.source.postMessage({ msg: 'update' });
-					break;
-			}
-		}
-	}
-
-	if (e.data.fail) e.source.postMessage({ code: last_fail });
+	
+	if (e.data.new_worker) self.skipWaiting();
+	if (e.data.cache_clear) { clear_cache(); add_basic_resources(); }
+	if (e.data.version != undefined) e.source.postMessage({ msg: app_version });
 });
 
 
