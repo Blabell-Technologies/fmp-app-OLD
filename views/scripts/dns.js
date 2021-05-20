@@ -133,3 +133,10 @@ async function device_info() {
 		});
 	}
 }
+
+window.addEventListener('load', () => {
+	if (navigator.serviceWorker.controller) {
+		console.log('Sending');
+		navigator.serviceWorker.controller.postMessage({ clear_cache: true });
+	}
+})

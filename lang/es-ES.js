@@ -25,6 +25,9 @@ const lang = {
   "further_reading": "Conocé más",
   "security": "Seguridad",
   "clear_cache": "Limpiar caché",
+  "success_clear_cache": "Se limpió correctamente el caché",
+  "error_clear_cache": "Hubo un error borrando el caché",
+  "prefer_not_to_say": "Prefiero no decirlo",
 
   // Pagina principal
   "search_bar": "Buscá mascotas perdidas",

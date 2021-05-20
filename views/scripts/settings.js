@@ -1,4 +1,5 @@
 import { Select } from '/lib/select.class.js';
+import { Toast } from '/lib/toast.js';
 
 
 // Establece el lenguaje
@@ -59,4 +60,23 @@ window.onload = () => {
 		default: lang.iso639,
 		pleaseSelectText: lang.this
 	});
+	document.getElementsByTagName('body')[0].addEventListener('clearcache', (e) => {
+		switch (e.detail) {
+			case 'done':
+				new Toast({
+					message: lang.success_clear_cache,
+					type: 'success'
+				});
+				break;
+			case 'error':
+				new Toast({
+					message: lang.error_clear_cache,
+					type: 'warning'
+				});
+				break;
+			default:
+				break;
+		}
+		
+	})
 }	

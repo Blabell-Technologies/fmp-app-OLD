@@ -25,6 +25,9 @@ const lang = {
   "further_reading": "Further reading",
   "security": "Security",
   "clear_cache": "Clear cache",
+  "success_clear_cache": "Cache has been successfully cleaned",
+  "error_clear_cache": "Something went wrong cleaning cache",
+  "prefer_not_to_say": "I prefer not to say",
   
   // Pagina principal
   "search_bar": "Search lost pets",

@@ -131,12 +131,14 @@ async function set_page() {
     description(ordered_info);
 
     // Obtiene la lista de razas
-    const races = await get_races('breed', pet_info.animal);
+    let races = await get_races('breed', pet_info.animal);
+        races.unshift({ name: lang.prefer_not_to_say, value: 'unset' });
     new Select('#pet_race', {
       keyword: 'breed',
-      default: pet_info.race,
+      default: pet_info.race || 'unset',
       title: lang.pet_race,
-      options: races
+      options: races,
+      pleaseSelectText: lang.prefer_not_to_say
     });
 
     let owner_home = ordered_info.general_information.owner_home;
@@ -219,7 +221,7 @@ function description(obj) {
 
   // Genera el botón de envío
   const snd_btn = document.createElement('button');
-        snd_btn.innerHTML = lang.send;
+        snd_btn.innerHTML = lang.edit_pet;
         snd_btn.addEventListener('click', () => send_data());
 
   // Lo añade
@@ -442,7 +444,7 @@ async function send_data() {
   
           // En ese caso, se observa si el valor por defecto y el actual son diferentes. Al ser así se añade al form data
           if (default_values[entry] != values[entry]) form_data.append(entry, values[entry]);
-          // console.log(`${entry}: ${values[entry]}`);
+          console.log(`${entry}: ${values[entry]}`);
         // En caso de que no haya una entrada igual en values...
         } else {
   

@@ -251,10 +251,10 @@ async function add_entries() {
 }
 
 
-// Escucha principal al scroll de la página para solicitar nuevas entradas
-window.addEventListener('scroll', check_if_need_entries);
-
-window.addEventListener('load', async () => add_entries());
+window.addEventListener('load', async () => {
+	window.addEventListener('scroll', check_if_need_entries);
+	add_entries();
+});
 
 
 

@@ -1,5 +1,5 @@
 // VERSIÓN LA APLICACIÓN
-let app_version = '1.0.36';
+let app_version = '1.0.50';
 
 // Variable del lenguaje
 let sw_lang = '';
@@ -43,7 +43,7 @@ async function add_basic_resources() {
 
 
 // Limpia los caches
-const clear_cache = async () => {
+const clear_cache = async (notify = false) => {
 	caches.keys()
 	.then((results) => {
 		for (const cdel of results) {
@@ -54,7 +54,8 @@ const clear_cache = async () => {
 			});
 		}
 	})
-	.catch((e) => { console.error(e); });
+	.then(() => { if (notify) post_message({ cache_clear: 'done' }); })
+	.catch((e) => { post_message({ cache_clear: 'error' }); console.error(e); });
 }
 
 
@@ -133,7 +134,7 @@ self.addEventListener('fetch', async (e) => {
 								const req_type = () => fetch_res.type != 'opaque' || fetch_res.url.includes('googleapis');
 								const req_path = () => {
 									const path = url.pathname.split('/');
-									return path[2] !== 'info' && path[1] !== 'administration' && path[3] !== 'success' && path[3] !== 'confirm';
+									return path[2] !== 'info' && path[2] !== 'edit' && path[1] !== 'administration' && path[3] !== 'success' && path[3] !== 'confirm';
 								}
 								
 								// Al pedirlo y obtenerlo correctamente, lo guarda en resources si es necesario
@@ -180,8 +181,15 @@ self.addEventListener('message', async (e) => {
 	}
 	
 	if (e.data.new_worker) self.skipWaiting();
-	if (e.data.cache_clear) { clear_cache(); add_basic_resources(); }
 	if (e.data.version != undefined) e.source.postMessage({ msg: app_version });
+	if (e.data.cache_clear) {
+		await clear_cache(true);
+		await add_basic_resources();
+	}
+	if (e.data.clear_cache) {
+		console.log('SW clearing cache');
+		await clear_cache();
+	}
 });
 
 

@@ -14,15 +14,20 @@ async function send_data() {
 
   // Obtiene la información
   const get_info = async () => {
-    let data = await lib.getData('addpet');
-        data = await lib.parseJSON(data);
-    return data;
+    try {
+      let json = await lib.getData('addpet');
+      let data = await lib.parseJSON(json);
+      return {json, data};
+    } catch (error) {
+      throw { name: error }
+    }
   }
 
   // Envía la información
   const send_info = async (data) => {
     const request = await fetch('/api/pets/add', {method: 'POST', body: data});
     const decoded = await request.json();
+    console.log(decoded);
 
     if (decoded.view_id == undefined && decoded.edit_id == undefined) throw decoded;
     return decoded;
@@ -36,8 +41,17 @@ async function send_data() {
     localStorage.setItem('pet_posts', JSON.stringify(pets_posted));
   }
 
+  // Redirige a la página de felicitaciones
+  const success = (json, response) => {
+    const url = new URL(`/pet/add/success/${response.view_id}`, window.location.origin);
+    url.searchParams.append('pet_name', json.pet_name);
+    url.searchParams.append('owner_email', json.owner_email);
+    window.location.href = url.href;
+  }
+
   // Maneja el error si lo hay
   const handle_error = (error) => {
+    console.error(error);
     alert.modal.destroy();
     alert.error({
       text: (error.name != undefined) ? lang.apiclienterror[error.name] : lang.clienterror.cant_get_info,
@@ -52,12 +66,12 @@ async function send_data() {
       text: lang.adding_post,
       icon: 'icon-heart'
     });
-
+    
+    const {json, data} = await get_info();
     if (captcha_success == false) throw { name: 'InvalidCaptcha' };
-
-    let data = await get_info();
     let response = await send_info(data);
     add_to_local_storage(response);
+    success(json, response);
 
   } catch (err) {
     handle_error(err);

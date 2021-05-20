@@ -25,6 +25,9 @@ const lang = {
   "further_reading": "Legu pli",
   "security": "Sekureco",
   "clear_cache": "Malplenigi kaŝmemoron",
+  "success_clear_cache": "La kaŝmemoro sukcese malpleniĝis",
+  "error_clear_cache": "Estis eraro malplenigante la kaŝmemoron",
+  "prefer_not_to_say": "Mi preferas ne diri",
 
   // Pagina principal
   "search_bar": "Serĉu perditajn dorlotbestojn",

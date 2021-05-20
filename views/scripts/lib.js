@@ -54,7 +54,7 @@ export function getData(form_name, deep = false) {
     return info;
   } else {
     // Caso contrario devuelve un error
-    throw 'Incomplete form';
+    throw 'UndefinedRequiredData';
   }
 }
 
