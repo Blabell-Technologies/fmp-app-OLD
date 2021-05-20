@@ -243,7 +243,10 @@ class App {
 				e.preventDefault();
 				this.custom_prompt = e;
 				const pwa_app = getCookie('pwa_app');
-				if (pwa_app == '') this.promote_app_install();
+				if (pwa_app == '') {
+					if (this.is_ios) this.ios_promote_app_install();
+					else this.promote_app_install();
+				}
 			});
 		}
 
@@ -354,6 +357,39 @@ class App {
 		ctnr.append(txt);
 		ctnr.append(btn);
 		document.getElementsByTagName('body')[0].prepend(ctnr);
+	}
+
+	ios_promote_app_install() {
+		if (document.getElementById('iosappinstall') == undefined) {
+			page.classList.add('noscroll');
+		
+			let ctr = document.createElement('div');
+					ctr.id = 'iosappinstall';
+			
+			let x = document.createElement('span');
+					x.classList.add('icon-close');
+					x.addEventListener('click', () => {
+						setCookie('pwa_app', 'denegated', 7);
+						page.classList.remove('noscroll');
+						ctr.remove();
+					});
+			
+			let title = document.createElement('h1');
+					title.innerHTML = lang.ios_app_promotion;
+	
+			let textone = document.createElement('p');
+					textone.innerHTML = lang.ios_app_promotion_textone;
+				
+			let texttwo = document.createElement('p');
+					texttwo.innerHTML = lang.ios_app_promotion_texttwo;
+	
+			ctr.append(x);
+			ctr.append(title);
+			ctr.append(textone);
+			ctr.append(texttwo);
+		
+			document.getElementsByTagName('body')[0].prepend(ctr);
+		}
 	}
 
 	// Instala la app

@@ -22,14 +22,17 @@ window.addEventListener('beforeinstallprompt', (e) => {
 				btn.id = 'block_appinstall';
 				btn.innerHTML = lang.installapp;
 				btn.addEventListener('click', async () => {
-					custom_prompt.prompt();
-					const { outcome } = await custom_prompt.userChoice;
-					if(outcome == 'accepted') {
-						btn.remove();
-						let install_header = document.getElementById('appinstall');
-						if (install_header != undefined) install_header.remove();
-						setCookie('pwa_app', 'installed', 7);
-						custom_prompt = null;
+					if (app.is_ios) app.ios_promote_app_install();
+					else {
+						custom_prompt.prompt();
+						const { outcome } = await custom_prompt.userChoice;
+						if(outcome == 'accepted') {
+							btn.remove();
+							let install_header = document.getElementById('appinstall');
+							if (install_header != undefined) install_header.remove();
+							setCookie('pwa_app', 'installed', 7);
+							custom_prompt = null;
+						}
 					}
 				});
 		ctnr.appendChild(btn);
