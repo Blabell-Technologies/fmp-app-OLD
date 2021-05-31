@@ -119,7 +119,7 @@ process.env.dirname = __dirname;
 
 		try {
 			// Creación de url
-			let url = new URL(`http://127.0.0.1:3002/api/pets/exp/post/${req.params.id}`);
+			let url = new URL(`http://127.0.0.1:${process.env.PORT}/api/pets/exp/post/${req.params.id}`);
 				url.searchParams.append('include', 'owner_name');
 				url.searchParams.append('include', 'pet_name');
 				url.searchParams.append('include', 'pictures');

@@ -1,4 +1,3 @@
-#petlist {margin-top: 15px;}
 #petlist>.pet_entry {border-bottom: 1px rgb(231, 231, 231) solid;}
 #petlist>.pet_entry:last-child {border: 0}
 #petlist>.pet_entry {width: 100%; height: 100px; display: flex; padding: 15px 0 15px 0; box-sizing: border-box;}

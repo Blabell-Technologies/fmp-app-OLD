@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
 	if (req.cookies['lang'] == undefined) {
 		// Obtención de la IP v4
 		let ip_v4 = req.ip.replace('::ffff:', '');
-		if (ip_v4.startsWith('127.0.0.1')) { ip_v4 = '190.124.15.175'; print.warn('Private IP detected'); }
+		if (ip_v4.startsWith('127.0.0.1') || ip_v4.startsWith('192.168')) { ip_v4 = '190.124.15.175'; print.warn('Private IP detected'); }
 	
 		// Obtención del ISO 3166 de la IP
     var ISO3166 = geoip.lookup(ip_v4).country;

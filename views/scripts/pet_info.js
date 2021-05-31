@@ -98,7 +98,6 @@ function images(arr) {
 
   // En caso de que solo haya una imagen
   if (arr.length <= 1) {
-
     // Simplemente la añade
     var ctnr = createimg(arr[0], pet_info.pet_name);
 

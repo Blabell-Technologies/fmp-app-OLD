@@ -66,3 +66,17 @@ export function parseJSON(data) {
     for (var entry in data) { formData.append(entry, data[entry]); }
     return formData;
 }
+
+
+/** Añade los accesos a la edición de la mascotas
+ * @param {string} id - ObjectID de la mascota (ViewID)
+ * @param {string} petuuid - UUID de la mascota (EditID)
+ */
+export const add_petedit_access = (id, uuid) => {
+  let pets_posts = JSON.parse(localStorage.getItem('pet_posts'));
+  if (pets_posts == undefined) pets_posts = {};
+
+  pets_posts[id] = uuid;
+  
+  localStorage.setItem('pet_posts', JSON.stringify(pets_posts));
+}
