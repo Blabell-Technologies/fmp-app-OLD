@@ -7,7 +7,7 @@ process.env.dirname = __dirname;
 	const fetch = require('node-fetch');
 	const cookieParser = require('cookie-parser');
 	const autoParser = require('express-query-auto-parse');
-	const dotenv = require('dotenv')
+	const dotenv = require('dotenv');
 
 //#endregion
 

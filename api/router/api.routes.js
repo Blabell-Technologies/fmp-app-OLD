@@ -261,14 +261,16 @@
 
   // Noticias e información desplegable en la app
   router.get('/news/random', async (req, res) => {
-    Info.findRandom({ lang: req.query.lang || 'es-ES', permalink: { $ne: req.query.avoid } }, { title: 1, pompadour: 1, cover: 1, permalink: 1, type: 1 }, { limit: 3 }, (error, result) => {
-      if (error) {
-        print.error(error);
-        return res.status(500).send(error);
-      }
+    let result;
+    
+    try { 
+      result = await Info.aggregate([{ $match: { lang: req.query.lang, permalink: { $ne: req.query.avoid } } }, { $sample: { size: req.query.size || 3 } }]);
       if (result != undefined && result.length > 0) return res.send(result);
-      return res.send({ empty: true });
-    });
+    } catch(error) {
+      print.error(error);
+      return res.status(500).send(error);
+    }
+    return res.json({ empty: true });
   });
 
   router.get('/news/last', async (req, res) => {

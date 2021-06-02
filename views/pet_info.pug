@@ -34,6 +34,9 @@ html#fmp(lang=lang.iso639)
 		meta(property='twitter:description', content=`¡Ayudemos a ${info.owner_name} a encontrar a su mascota perdida!`)
 		meta(property='twitter:image', content=info.pictures[0])
 
+		// FACEBOOK META
+		meta(property='fb:app_id', content='110029271190023')
+
 		// JAVASCRIPT
 		script(src=`/lang/${lang.iso639}.js` type='text/javascript' defer)
 		script(src="/scripts/app.js")
@@ -55,5 +58,15 @@ html#fmp(lang=lang.iso639)
 
 		title FoundMyPet
 	body
+		script.
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId            : '110029271190023',
+					autoLogAppEvents : true,
+					xfbml            : true,
+					version          : 'v10.0'
+				})
+			}
+		script(async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js")
 		+header(info.pet_name)
 		+footer()

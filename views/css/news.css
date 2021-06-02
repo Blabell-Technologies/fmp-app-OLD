@@ -10,8 +10,41 @@ a.news:first-child { padding-top: 0 !important; }
 body>img { height: 400px; width: 100vw; object-fit: cover; }
 
 #body>section { padding-bottom: 25px; }
-#body>section#more_news { padding-bottom: 0 !important; padding-top: 20px; border-top: 1px rgb(231, 231, 231) solid; }
+#body>section#more_news { padding-bottom: 0 !important; padding-top: 20px; border-top: 1px rgb(231, 231, 231) solid; margin-top: 20px; }
 #body>section>div.lineinfo { margin-top: 10px; }
-#body>section>h3, #body>section>h2 { margin-bottom: 15px; }
+#body>section>h1 { margin-bottom: 15px; }
 #body>section>p>img { width: 100%; }
 #body>section>p>a { color: rgb(255, 196, 129); font-weight: 600; }
+
+#content img { width: 100%; margin: 10px 0; }
+#content p { margin-bottom: 10px; }
+#content a { color: rgb(255, 196, 129); font-weight: 500; }
+#content :is(h1, h2, h3, h4, h5, h6)  { margin: 20px 0; }
+#content h2:first-of-type { margin-top: 0 !important; }
+#content pre { padding: 15px; box-sizing: border-box; background-color: #f7f7f7; border-radius: 15px; margin: 20px 0; }
+#content strong { font-weight: 500; }
+#content em { font-style: italic; }
+
+#content table { width: 100%; margin: 20px 0; border: .8px solid #c7c7c7; border-radius: 10px; overflow: hidden; }
+#content table th, #content table td { padding: 10px; }
+#content table th { font-weight: 500; }
+#content table > thead tr { background-color: #f7f7f7; }
+#content table > tbody tr:nth-child(even) { background-color: #f7f7f7; }
+
+#content :is(ol, ul) { margin: 20px 0; list-style-position: inside; }
+#content :is(ol, ul) > li { margin-bottom: 10px; }
+#content :is(ol, ul) > li.task-list-item { display: flex; align-items: center; }
+#content :is(ol, ul) > li:last-of-type { margin-bottom: 0 !important; }
+#content :is(ol, ul) > li > input, #content [class^="icon-"], [class*=" icon-"] { margin: 0 10px 0 0 !important; }
+
+#content blockquote { margin: 20px 0; padding: 5px 0 5px 20px; box-sizing: border-box; position: relative; }
+#content blockquote > p { margin-bottom: 0; font-style: italic; font-weight: 400; }
+#content blockquote > p > cite { font-weight: 200; }
+#content blockquote > p > cite::before { content: "— "; }
+
+#content blockquote::before {
+  content: ""; display: block;
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: 5px; border-radius: 8px; 
+  background-color: #ffc481;
+}

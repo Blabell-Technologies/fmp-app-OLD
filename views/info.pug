@@ -19,10 +19,10 @@ html#fmp(lang=lang.iso639)
 
     // JAVASCRIPT
     script(src=`/lang/${lang.iso639}.js` type='text/javascript' defer)
-    script(src="/scripts/app.js")
-    script(src="/scripts/integrity.js" type="module")
-    script(src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js")
-    script(src="/scripts/info.js" type="module")
+    script(src="/scripts/app.js" await)
+    script(src="/scripts/integrity.js" type="module" await)
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js" await)
+    script(src="/scripts/info.js" type="module" await)
 
     // STYLES
     link(rel="preconnect" href="https://fonts.gstatic.com")

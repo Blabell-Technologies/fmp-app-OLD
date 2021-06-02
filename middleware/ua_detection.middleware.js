@@ -1,3 +1,5 @@
+const print = require('../lib/logger.class.lib')
+
 module.exports = (req, res, next) => {
 
 	// Listado de OS con sus descripciones segun user-agent
@@ -28,11 +30,10 @@ module.exports = (req, res, next) => {
 		'UNIX': ['UNIX']
 	}
 
-	const bot_regex = /WhatsApp|Twitterbot|Facebot/g;
+	const bot_regex = /WhatsApp|Twitterbot|Face|Telegram/gi;
 
 	// Obtención de la información del OS
 	let ua = req.headers['user-agent'];
-
 	if (bot_regex.test(ua)) return next();
 	if (ua == undefined) ua = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Mobile Safari/537.36 Edg/89.0.774.50";
 	
@@ -73,6 +74,7 @@ module.exports = (req, res, next) => {
 	}
 	
 	if (user_device == 'Mac' || user_device == 'not-detected' || user_device == 'iPad' || user_device == 'PC') {
+		print.warn('Not supported device has been blocked');
 		return res.render('dns', { 'lang': req.lang });
 	}
 	

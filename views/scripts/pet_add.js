@@ -93,8 +93,8 @@ class Selects {
     this.animal_select;
     this.breed_select;
 
-    this.#create_animal_select();
-    this.#create_breed_select();
+    this.create_animal_select();
+    this.create_breed_select();
   }
 
   /** Solicita la información de animales y razas al servidor
@@ -102,7 +102,7 @@ class Selects {
    * @param {string} animal - Animal del que se quieren obtener las razas
    * @returns Un objeto ordenado y con el formato necesario para los select
    */
-  async #request_data(type, animal) {
+  async request_data(type, animal) {
 
     // Genera la URL
     function create_url() {
@@ -161,16 +161,16 @@ class Selects {
 
   /** Genera el select de animales y su relación con el de razas
    */
-  async #create_animal_select() {
+  async create_animal_select() {
 
     // Modifica las razas disponibles dependiendo del animal seleccionado
     const change_breed_options = async (animal) => {
-      let options = await this.#request_data('breed', animal);
+      let options = await this.request_data('breed', animal);
       this.breed_select.setOptions = options;
       this.breed_select.lock = false;
     }
 
-    let options = await this.#request_data('animal');
+    let options = await this.request_data('animal');
     this.animal_select = new Select('#pet_animal', {
       options,
       title: lang.animal,
@@ -184,7 +184,7 @@ class Selects {
 
   /** Genera el select de razas
    */
-  #create_breed_select() {
+  create_breed_select() {
     this.breed_select = new Select('#pet_race', {
       options: [],
       title: lang.pet_race,
@@ -192,7 +192,7 @@ class Selects {
       locked: true,
       pleaseSelectText: lang.select,
       onClickWhenLocked: function() {
-        alert.warn({msg: lang.clienterror.something_wrong});
+        alert.warn({msg: lang.select_pet_first});
       }
     });
   }

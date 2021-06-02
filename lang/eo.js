@@ -28,6 +28,9 @@ const lang = {
   "success_clear_cache": "La kaŝmemoro sukcese malpleniĝis",
   "error_clear_cache": "Estis eraro malplenigante la kaŝmemoron",
   "prefer_not_to_say": "Mi preferas ne diri",
+  "copied_to_clipboard": "Kopiita al tondujo",
+  "error_copying_clipboard": "Estis eraro dum kopiado al la tondujo",
+  "select_pet_first": "Unue elektu la beston",
 
   // Pagina principal
   "search_bar": "Serĉu perditajn dorlotbestojn",

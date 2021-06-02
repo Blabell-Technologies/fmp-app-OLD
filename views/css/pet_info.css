@@ -25,6 +25,9 @@ body>#pet_photo { width: 100%; height: var(--slider-image-height); object-fit: c
                    a.share_facebook {background-color: #3b5999;}
                    a.share_instagram {background-color: #517FA4;}
                    a.share_whatsapp {background-color: #25D366;}
+                   a.share_link {background-color: #4c4c4c;}
+                   a.share_messenger {background-color: #0084ff;}
+                   a.share_telegram {background-color: #0088cc;}
 #pet>#editpet>div>a {width: 30%; height: 40px; border: none; border-radius: 10px; cursor: pointer;}
                   a.editpost {background-color: rgb(255, 196, 129);}
                   a.endpost {background-color: #b6ff8c;}
