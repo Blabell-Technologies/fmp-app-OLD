@@ -31,6 +31,7 @@ const lang = {
   "copied_to_clipboard": "Kopiita al tondujo",
   "error_copying_clipboard": "Estis eraro dum kopiado al la tondujo",
   "select_pet_first": "Unue elektu la beston",
+  "already_found": "Ĉi tiu dorlotbesto jam estas hejme!",
 
   // Pagina principal
   "search_bar": "Serĉu perditajn dorlotbestojn",

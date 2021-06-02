@@ -1,5 +1,5 @@
 // VERSIÓN LA APLICACIÓN
-let app_version = '1.0.51';
+let app_version = '1.1.21';
 
 // Variable del lenguaje
 let sw_lang = '';

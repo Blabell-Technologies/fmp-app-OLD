@@ -20,14 +20,14 @@
         <p class="fmp_text">We regret for this situation you are going through. We will do our best to find {{ pet_name }}</p>
         <h3 class="fmp_title">Confirmation</h3>
         <p class="fmp_text">For security proposes, we need to confirm that this post was created by you. Just click the next button and you are done.</p>
-        <a class="fmp_link" href="https://app.testing.foundmypet.org/pet/add/confirm/{{ edit_id }}">
+        <a class="fmp_link" href="{{ url }}/pet/add/confirm/{{ edit_id }}">
           <button>Confirm post</button>
         </a>
         <h3 class="fmp_title">Editing and security</h3>
         <p class="fmp_text">You can edit your post for correcting or adding new information as many times as you want by simply clicking the button below.</p>
         <p class="fmp_text">This is accessible directly from the post in the app, but this second way is also available in case of failure or if you want to access from another device</p>
         <p class="fmp_text">Be careful. Dont share this link with people you do not trust. Anyone with this link can edit the information.</p>
-        <a class="fmp_link" href="https://app.testing.foundmypet.org/pet/edit/{{ edit_id }}">
+        <a class="fmp_link" href="{{ url }}/pet/edit/{{ edit_id }}">
           <button>Edit post</button>
         </a>
         <p class="fmp_text">Thanks for trusting us</p>

@@ -6,6 +6,7 @@
   const FMP = require('fmp-client');
   const formidable = require('express-formidable');
   const fetch = require('node-fetch');
+  const dotenv = require('dotenv');
   const cors = require('cors');
 
 //#endregion
@@ -106,7 +107,7 @@
           },
           to: body.owner_email,
           subject: lang.mail.pet_add.subject,
-          html: compiler(`pet_add/${req.cookies.lang}`, { owner_name: body.owner_name, pet_name: body.pet_name, edit_id: result.edit_id }),
+          html: compiler(`pet_add/${lang.iso639}`, { owner_name: body.owner_name, pet_name: body.pet_name, edit_id: result.edit_id, url: process.env.HOST }),
           attachments: [
             { filename: 'fmp_headerimg.png', path: process.cwd() + '/views/assets/img/logos/fmp_logo_vertical.jpg', cid: 'fmp_headerimg' }
           ]
@@ -172,7 +173,7 @@
       }
     }
     catch (err) {
-      print.error(err);
+      console.error(err);
       return res.json(err);
     }
   });

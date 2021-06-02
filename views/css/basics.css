@@ -160,7 +160,12 @@ ul.autoComplete_list>li>span { color: rgba(0,0,0,.7); font-size: 11pt; }
 /*--------------------------------------------------------------------------------------*/
 
 .custom_select { display: flex !important; flex-direction: row; justify-content: space-between; }
-.custom_select > select { border: none; text-align-last: end; padding-right: 5px; background: none; color: rgb(255, 196, 129); font-size: 12pt; font-weight: 700; }
+.custom_select > select { -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg%27%3E<path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 98%;
+  background-position-y: 50%;border: none; text-align-last: end; padding-right: 5px; background: none; color: rgb(255, 196, 129); font-size: 12pt; font-weight: 700; }
 
 #selects { display: none; position: fixed; justify-content: center; align-items: center; top: 0; left: 0; width: 100vw; height: 100%; background-color: rgba(0, 0, 0, .65); }
 #selects.shown, #selects>.shown { display: flex !important; }

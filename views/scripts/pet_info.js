@@ -8,11 +8,6 @@ import { Toast } from '/lib/toast.js';
 // - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-// ID de la mascota
-var pet_id = window.location.pathname.split('/');
-    pet_id = pet_id[pet_id.length - 1];
-
-
 
 class PetInfo {
 
@@ -22,7 +17,9 @@ class PetInfo {
     this.skeleton;
 
     const posts = JSON.parse(localStorage.getItem('pet_posts'));
-    this.is_editable = posts != undefined && typeof posts == 'object' && posts[pet_id] != undefined;
+    this.edit_id = posts != undefined ? posts[this.id] : undefined;
+    this.is_editable = this.edit_id != undefined;
+    this.found;
 
     this.build();
   }
@@ -33,7 +30,8 @@ class PetInfo {
       let info = await this.request_data();
       this.data = format_api_data(info);
       this.skeleton = this.set_skeleton(this.data);
-
+      
+      if (this.data.found) this.has_been_found();
       this.images(this.skeleton.images);
       this.description(this.skeleton.description);
       this.share();
@@ -63,7 +61,6 @@ class PetInfo {
       let url = new URL(window.location.origin + `/api/pets/post/${this.id}`);
       return url;
     }
-
 
     const url = data_url();
     const request = await fetch(url);
@@ -417,6 +414,20 @@ class PetInfo {
   }
 
 
+  // Muestra un contenedor alertando que la mascota
+  // ya fue encontrada
+  has_been_found() {
+    let div = document.createElement('div');
+        div.id = 'pet_found';
+
+    let span = document.createElement('span');
+        span.textContent = lang.already_found;
+
+    div.appendChild(span);
+    this.add_section(div);
+  }
+
+
   //#endregion
 
 
@@ -435,9 +446,9 @@ class PetInfo {
         // Genera las opciónes disponibles para editar la mascota
         const options = () => {
           let buttons = [];
-          buttons.push({text: 'Modificar datos', type: 'Secondary', action: this.edit_post});
-          if (this.data.found == false) buttons.push({text: '¡Lo encontré!', type: 'Primary', action: this.end_post});
-          buttons.push({text: 'Cerrar publicación', type: 'Secondary', action: this.close_post});
+          buttons.push({text: 'Modificar datos', type: 'Secondary', action: () => this.edit_post()});
+          if (this.data.found == false) buttons.push({text: '¡Lo encontré!', type: 'Primary', action: () => this.end_post()});
+          buttons.push({text: 'Cerrar publicación', type: 'Secondary', action: () => this.close_post()});
   
           return buttons;
         }
@@ -481,8 +492,7 @@ class PetInfo {
   
       // Genera el link para enviar la peticion de borrado
       const delete_url = () => {
-        const id = posts[pet_id]
-        let url = new URL(window.location.origin + `/api/pets/delete/${id}`);
+        let url = new URL(window.location.origin + `/api/pets/delete/` + this.edit_id);
             url.searchParams.append('pet_name', this.data.pet_name);
             url.searchParams.append('owner', this.data.owner_name);
             url.searchParams.append('mail', this.data.owner_email);
@@ -553,10 +563,8 @@ class PetInfo {
       // Genera la url a la que enviar los datos
       const end_post_url = () => {
         const lang = document.getElementsByTagName('html')[0].lang;
-        const id = posts[pet_id];
-  
         let url = new URL(window.location.origin);
-        url.pathname = `/api/pets/modify/${id}`
+        url.pathname = `/api/pets/modify/` + this.edit_id;
         url.searchParams.append('lang', lang);
   
         return url;
@@ -575,7 +583,7 @@ class PetInfo {
       const request = await fetch(url, { body: data, method: 'PUT' });
       const decoded = await request.json();
   
-      if (res.name != undefined && res.message != undefined) throw decoded;
+      if (decoded.name != undefined && decoded.message != undefined) throw decoded;
       return decoded;
     }
   
@@ -595,11 +603,13 @@ class PetInfo {
         alert.modal.destroy();
         alert.info({ title: lang.finding_post, icon: 'icon-heart' });
     
-        await send();
+        const response = await send();
+        console.log(response);
         const url = ended_post_url();
         window.location.href = url.href;
   
       } catch(error) {
+        console.error(error);
         on_error(error);
       }
     }
@@ -633,7 +643,7 @@ class PetInfo {
 
   // Redirige a la página de edición de la mascota
   edit_post() {
-    const url = new URL(window.location.origin + `/pet/edit/${posts[pet_id]}`);
+    const url = new URL(window.location.origin + '/pet/edit/' + this.edit_id);
     window.location.href = url.href;
   }
 
@@ -644,5 +654,8 @@ class PetInfo {
 
 
 window.addEventListener('load', () => {
+  var pet_id = window.location.pathname.split('/');
+  pet_id = pet_id[pet_id.length - 1];
+
   new PetInfo(pet_id);
 });

@@ -13,7 +13,7 @@ mixin input(classname, name, placeholder, type = 'text', opt = false)
     when 'datetime-local'
       label(for=name)
         span= placeholder
-        input(name=name, id=name, class=opt ? classname + ' optional' : classname, type=type, max= new Date().toISOString().substring(0, 16))
+        input(name=name, id=name, placeholder='dd/mm/aaaa --:--', class=opt ? classname + ' optional' : classname, type=type, max= new Date().toISOString().substring(0, 16))
     when 'place'
       div.compleshon.compleshon-address
         label(for=name, class='map_place')

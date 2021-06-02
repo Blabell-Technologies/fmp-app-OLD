@@ -31,6 +31,7 @@ const lang = {
   "copied_to_clipboard": "Copiado al portapapeles",
   "error_copying_clipboard": "No se pudo copiar al portapapeles",
   "select_pet_first": "Primero seleccioná el animal",
+  "already_found": "¡Esta mascota ya fue encontrada!",
 
   // Pagina principal
   "search_bar": "Buscá mascotas perdidas",

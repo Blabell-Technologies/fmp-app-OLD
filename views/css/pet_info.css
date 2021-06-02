@@ -34,3 +34,6 @@ body>#pet_photo { width: 100%; height: var(--slider-image-height); object-fit: c
                   a.closepost {background-color: #ff8c8c;}
 #pet>div>#petedit { width: 50px; height: 50px; cursor: pointer; border-radius: 100%; background-color: rgb(255, 196, 129); border: none; text-align: center; position: absolute; top: 0; right: 0; }
 #pet>div>#petedit>span { color: white; font-size: 200%; }
+
+#pet_found { width: 100%; height: 40px; display: flex; justify-content: center; align-items: center; background-color: #b6ff8c; position: sticky; top: 0; z-index: 999; }
+#pet_found > span { font-family: 'Rubik'; font-weight: 500; }

@@ -474,5 +474,5 @@ class App {
 	}
 }
 
-let app = new App();
+var app = new App();
 app.start();

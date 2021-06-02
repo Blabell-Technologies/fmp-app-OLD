@@ -48,14 +48,68 @@ class PetList {
 
 
 	async create() {
+
 		try {
 			let data = await this.request_pets();
-			if (data != undefined) this.append_items(data);
-			this.detect_scroll = true;
+			if (data != undefined) this.handle_response(data);
 			window.addEventListener('scroll', () => this.check_if_need_items());
 		} catch (error) {
 			this.on_list_error(error);
 		}
+	}
+
+
+
+	async handle_response(data) {
+
+		// Muestra un mensaje de que no hay resultados
+		const no_results = () => {
+
+			let div = document.createElement('div');
+					div.classList.add('not_results');
+
+			let span = document.createElement('span');
+					span.classList.add('icon-emotion-unhappy');
+
+			let h1 = document.createElement('h1');
+					h1.textContent = lang.results_not_found;
+
+			div.appendChild(span);
+			div.appendChild(h1);
+
+			this.target.innerHTML = '';
+			this.target.appendChild(div);
+		}
+
+		// Añade noticias al final en caso de que queden
+		// algunas por mostrar después de la mascota
+		// mas antigua
+		const append_final_news = async () => {
+			let { news, list } = await this.request_news(this.news_since, new Date(0));
+			if (!list.empty && list.error == undefined) {
+				this.remove_loading();
+				for (const info of list) {
+					let item = news.create_item(info);
+					this.target.appendChild(item);
+				}
+			}
+		}
+
+
+		try {
+			if (data.results.length > 0) await this.append_items(data);
+			if (data.next.next == false) {
+				if (this.target.childNodes.length == 0) return no_results();
+				await append_final_news();
+				support_us(this.target);
+			} else {
+				this.detect_scroll = true;
+			}
+		} catch (error) {
+			console.error(error);
+		}
+
+
 	}
 
 
@@ -65,10 +119,7 @@ class PetList {
 		if (this.detect_scroll && window.scrollY + window.innerHeight > this.target.offsetHeight - 300) {
 			this.detect_scroll = false;
 			const data = await this.request_pets();
-			if (data != undefined) {
-				await this.append_items(data);
-				this.detect_scroll = true;
-			}
+			if (data != undefined) this.handle_response(data);
 		}
 	}
 
@@ -107,52 +158,10 @@ class PetList {
 			}
 		}
 
-		// Muestra un mensaje de que no hay resultados
-		const no_results = () => {
-
-			let div = document.createElement('div');
-					div.classList.add('not_results');
-
-			let span = document.createElement('span');
-					span.classList.add('icon-emotion-unhappy');
-
-			let h1 = document.createElement('h1');
-					h1.textContent = lang.results_not_found;
-
-			div.appendChild(span);
-			div.appendChild(h1);
-
-			this.target.innerHTML = '';
-			this.target.appendChild(div);
-		}
-
-		// Añade noticias al final en caso de que queden
-		// algunas por mostrar después de la mascota
-		// mas antigua
-		const append_final_news = async () => {
-			let { news, list } = await this.request_news(this.news_since, new Date(0));
-			if (!list.empty && list.error == undefined) {
-				this.remove_loading();
-				for (const info of list) {
-					let item = news.create_item(info);
-					this.target.appendChild(item);
-				}
-			}
-		}
-
 		
 		try {
 			const data = await request_items();
-			if (data.results.length == 0 && data.next.results == 0) {
-				if (this.target.childNodes.length == 0) return no_results();
-				else {
-					await append_final_news();
-					support_us(this.target);
-				}
-			} else {
-				return data;
-			}
-
+			return data;
 		} catch (error) {
 			this.on_list_error(error);
 		}

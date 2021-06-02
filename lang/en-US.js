@@ -31,6 +31,7 @@ const lang = {
   "copied_to_clipboard": "Copied to clipboard",
   "error_copying_clipboard": "Couldn't copy to clipboard",
   "select_pet_first": "First select the animal",
+  "already_found": "¡This pet is at home!",
   
   // Pagina principal
   "search_bar": "Search lost pets",

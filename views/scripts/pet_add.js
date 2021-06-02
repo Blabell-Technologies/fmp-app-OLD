@@ -51,7 +51,6 @@ async function send_data() {
 
   // Maneja el error si lo hay
   const handle_error = (error) => {
-    console.error(error);
     alert.modal.destroy();
     alert.error({
       text: (error.name != undefined) ? lang.apiclienterror[error.name] : lang.clienterror.cant_get_info,
