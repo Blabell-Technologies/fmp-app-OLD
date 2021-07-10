@@ -85,6 +85,7 @@ class PetList {
 		// algunas por mostrar después de la mascota
 		// mas antigua
 		const append_final_news = async () => {
+			if (window.location.pathname.indexOf('search') != -1) return;
 			let { news, list } = await this.request_news(this.news_since, new Date(0));
 			if (!list.empty && list.error == undefined) {
 				this.remove_loading();
@@ -106,9 +107,8 @@ class PetList {
 				this.detect_scroll = true;
 			}
 		} catch (error) {
-			console.error(error);
+			this.on_list_error("Couldn't get or show data");
 		}
-
 
 	}
 
@@ -228,13 +228,14 @@ class PetList {
 
 		// Añade un item de mascota a la lista
 		const append_pet = (info) => {
-			info.disappearance_date = parse_time(info.disappearance_date);;
+			info.disappearance_date = parse_time(info.disappearance_date);
 			let item = this.create_item(info);
 			this.target.appendChild(item);
 		}
 
 		// Añade una noticia a la lista
 		const append_news = (info, news_class) => {
+			if (window.location.pathname.indexOf('search') != -1) return;
 			let item = news_class.create_item(info);
 			this.target.appendChild(item);
 		}
@@ -252,19 +253,32 @@ class PetList {
 
 
 	// Genera un item para la lista
-	create_item({id, pet_name, disappearance_date, details, picture}) {
+	create_item({id, pet_name, disappearance_date, details, picture, found}) {
 
 		let a = document.createElement('a');
 				a.dataset.key = this.assign_key;
 				a.classList.add('pet_entry');
 				a.setAttribute('href', '/pet/info/' + id);
 
+		// Lado izquierdo
+		let left = document.createElement('div');
+
 		let img = document.createElement('img');
 				img.setAttribute('src', picture);
 				img.setAttribute('alt', pet_name);
 				img.addEventListener('error', (e) => img_error(e));
+		
+		left.appendChild(img);
 
-		let div = document.createElement('div');
+		if (found) {
+			let span = document.createElement('span');
+					span.textContent = lang.already_found_list
+	
+			left.appendChild(span);
+		}
+
+		// Lado derecho
+		let right = document.createElement('div');
 
 		let h3 = document.createElement('h3');
 				h3.textContent = pet_name;
@@ -275,12 +289,12 @@ class PetList {
 		let p = document.createElement('p');
 				p.textContent = details;
 
-		div.appendChild(h3);
-		div.appendChild(h4);
-		div.appendChild(p);
+		right.appendChild(h3);
+		right.appendChild(h4);
+		right.appendChild(p);
 
-		a.appendChild(img);
-		a.appendChild(div);
+		a.appendChild(left);
+		a.appendChild(right);
 
 		this.assign_key++;
 		return a;

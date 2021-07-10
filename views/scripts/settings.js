@@ -5,7 +5,7 @@ import { Toast } from '/lib/toast.js';
 // Establece el lenguaje
 function setLanguage(iso639) {
 	setCookie('lang', iso639, 7);
-	if(navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage({ lang: iso639 });
+	if(navigator.serviceWorker && navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage({ lang: iso639 });
 	location.reload();
 }
 
@@ -43,8 +43,15 @@ window.addEventListener('beforeinstallprompt', (e) => {
 function clear_cache_button() {
 	let btn = document.getElementById('block_clearcache');
 			btn.addEventListener('click', () => {
-				app.clear_cache();
-			})
+				if (navigator.serviceWorker) {
+					app.clear_cache();
+				} else {
+					new Toast({
+						message: lang.cant_clear_cache,
+						type: 'warning'
+					});
+				}
+			});
 }
 
 
@@ -59,7 +66,7 @@ window.onload = () => {
 		],
 		keyword: 'language_selector',
 		title: lang.language,
-		onValueChange: function(new_lang) {setLanguage(new_lang)},
+		onValueChange: function(new_lang) { setLanguage(new_lang) },
 		default: lang.iso639,
 		pleaseSelectText: lang.this
 	});

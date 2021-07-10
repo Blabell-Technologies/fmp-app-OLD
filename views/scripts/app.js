@@ -251,7 +251,7 @@ class App {
 		}
 
 		if ('serviceWorker' in navigator) this.register_service_worker();
-		else console.log('[CLIENT] Service worker not supported');
+		else { console.log('[CLIENT] Service worker not supported'); return; }
 
 		if (navigator.serviceWorker.controller) {
 			navigator.serviceWorker.controller.postMessage({version: 'check'});

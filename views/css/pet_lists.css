@@ -1,7 +1,9 @@
 #petlist>.pet_entry {border-bottom: 1px rgb(231, 231, 231) solid;}
 #petlist>.pet_entry:last-child {border: 0}
 #petlist>.pet_entry {width: 100%; height: 100px; display: flex; padding: 15px 0 15px 0; box-sizing: border-box;}
-#petlist>.pet_entry>img {width: 72px; height: 72px; object-fit: cover; border-radius: 15px; margin-right: 15px; flex-shrink: 0;}
+#petlist>.pet_entry>div:first-child { overflow: hidden; display: flex; flex-direction: column; height: 72px; min-width: 72px; margin-right: 15px; border-radius: 15px; position: relative; }
+#petlist>.pet_entry>div:first-child>img {width: 72px; height: 100%; object-fit: cover; }
+#petlist>.pet_entry>div:first-child>span { color: #131313; height: 18px; position: absolute; bottom: 0; width: 100%;  background-color: #b6ff8c; text-align: center; text-transform: uppercase; font-size: 12px; padding: 3px; font-weight: 600; }
 #petlist>.pet_entry>div {height: 72px; display: flex; flex-direction: column;}
 #petlist>.pet_entry>div>h4 {margin-bottom: 5px;}
 #petlist>.pet_entry>div>p {flex-grow: 1; height: 100%; overflow: hidden;}

@@ -2,6 +2,7 @@ import * as lib from '/scripts/lib.js';
 import alert from '/lib/dist/alerts.class.js';
 import { Compleshon } from '/lib/compleshon.class.js';
 import { Select } from '/lib/select.class.js';
+import { ContactForm } from '/lib/contactForm.class.js';
 
 
 
@@ -79,6 +80,9 @@ let pet_info;
 // Variable donde se almacenarán los valores predeterminados
 let default_values;
 
+// Formulario de contacto
+let contact_form;
+
 // Esqueleto de la página
 const skeleton = (data) => {
   return {
@@ -122,7 +126,6 @@ async function set_page() {
 
     // Formato
     pet_info = format_api_data(decoded);
-    console.log(pet_info);
 
     // Información ordenada adecuada a la creación de la página
     const ordered_info = skeleton(pet_info);
@@ -160,11 +163,20 @@ async function set_page() {
     } : {};
     new Compleshon('#disappearance_place', disappearance_place_config);
 
+    contact_form = new ContactForm('#contactinfo', {
+      keyword: 'contact',
+      inputs: {
+        limit: 3,
+        phone: { limit: 3, default: ordered_info.contact.owner_phone }
+      }
+    });
+
     // Añade detalles de los inputs
     set_optionals();
 
     // Obtiene los valores actuales para comparar
     default_values = lib.getData('editpet', true);
+    default_values.owner_phone = JSON.stringify(await contact_form.value);
 
   } catch (error) {
     console.log(error);
@@ -259,6 +271,7 @@ function category(conf, cat) {
           info = category_info(line, cat[line], true);
           break;
         default:
+          if (line == 'owner_phone') continue;
           info = input_info(line, cat[line]);
           break;
       }
@@ -434,23 +447,15 @@ async function send_data() {
   try {
 
     values = lib.getData('editpet');
+    values.owner_phone = JSON.stringify(await contact_form.value);
+    console.log(values);
+    console.log(default_values);
     form_data = new FormData();
   
-    // Para cada entrada en default...
     for (let entry in default_values) {
-  
-        // Se comprueba que haya una igual en values
         if (entry in values) {
-  
-          // En ese caso, se observa si el valor por defecto y el actual son diferentes. Al ser así se añade al form data
           if (default_values[entry] != values[entry]) form_data.append(entry, values[entry]);
-          console.log(`${entry}: ${values[entry]}`);
-        // En caso de que no haya una entrada igual en values...
-        } else {
-  
-          // En caso de que value[entry] sea indefinido y su valor correspondiente en default sea distinto a '', se añade al form data
-          if (values[entry] == undefined && default_values[entry] != '') form_data.append(entry, 'unset');
-        }
+        } else if (values[entry] == undefined && default_values[entry] != '') form_data.append(entry, 'unset');
     }
 
   } catch(error) {

@@ -32,6 +32,9 @@ const lang = {
   "error_copying_clipboard": "No se pudo copiar al portapapeles",
   "select_pet_first": "Primero seleccioná el animal",
   "already_found": "¡Esta mascota ya fue encontrada!",
+  "already_found_list": "En casa",
+  "cant_clear_cache": "No se pudo borrar el caché. No hay service worker.",
+  "race_not_available": "raza no especificada",
 
   // Pagina principal
   "search_bar": "Buscá mascotas perdidas",
@@ -55,6 +58,7 @@ const lang = {
   "owner_phone": "Teléfono",
   "owner_email": "Correo",
   "owner_home": "Domicilio",
+  "owner_socialmedia": "Red social",
   "secondary": "Información secundaria",
   "reward": "Recompensa",
   "edit_post": "Editá tu publicación",
@@ -86,6 +90,8 @@ const lang = {
   },
   "optional": "Dato opcional",
   "places_hint": "Calle y altura",
+  "add_phone": "Añadir teléfono",
+  "add_social": "Añadir red social",
 
   "meta": {
     "description": "Difundí y enterate de todas las mascotas perdidas actualmente. ¡Con tuayuda vamos a lograr que cada una de ellas pueda regresar a su hogar!"

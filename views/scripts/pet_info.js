@@ -30,7 +30,7 @@ class PetInfo {
       let info = await this.request_data();
       this.data = format_api_data(info);
       this.skeleton = this.set_skeleton(this.data);
-      
+
       if (this.data.found) this.has_been_found();
       this.images(this.skeleton.images);
       this.description(this.skeleton.description);
@@ -76,7 +76,7 @@ class PetInfo {
       description: {
         general_information: {
           disappearance_date: this.data.disappearance_date,
-          pet_race: this.data.pet_race,
+          animal_race: `${this.data.pet_animal}${(this.data.pet_race == null) ? `, ${lang.race_not_available}` : ` ${this.data.pet_race}`}`,
           disappearance_place: this.data.disappearance_place.address,
           details: this.data.details
         },
@@ -138,7 +138,7 @@ class PetInfo {
         let item = document.createElement('li');
             item.classList.add('splide__slide');
         
-        let img = createimg(img_list[i], this.data.pet_name  + '_' + i);
+        let img = create_img(img_list[i], this.data.pet_name  + '_' + i);
 
         item.appendChild(img);
         list.appendChild(item);
@@ -203,8 +203,18 @@ class PetInfo {
 
     for (let data in category) {
       if (category[data] != null) {
-        const info = this.section(data, category[data], (conf.name == 'general_information') ? true : false);
-        ctnr.appendChild(info);
+        switch (data) {
+          case 'owner_phone':
+            Object.keys(category[data]).map((key, i) => {
+              const info = this.section(`${i + 1}° ${lang[data]}`, category[data][key], (conf.name == 'general_information') ? true : false);
+              ctnr.appendChild(info);
+            });
+            break;
+          default:
+            const info = this.section(lang[data], category[data], (conf.name == 'general_information') ? true : false);
+            ctnr.appendChild(info);
+            break;
+        }
       }
     }
 
@@ -216,11 +226,11 @@ class PetInfo {
   section(key, value, twoline = false) {
     let ctnr = document.createElement('div');
     ctnr.classList.add(twoline ? 'twolines' : 'oneline', 'wantedpetinfo');
-    if (key == 'owner_email') ctnr.classList.add('nocap');
+    if (key == lang.owner_email) ctnr.classList.add('nocap');
 
     // Título
     let title = document.createElement('h4');
-        title.innerHTML = lang[key];
+        title.innerHTML = key;
 
     // Texto
     let text = document.createElement('p');
@@ -317,7 +327,7 @@ class PetInfo {
       const telegram_button = (target, text) => {
         
         const tg_url = (text) => {
-          let url = new URL('https://telegram.me/share/url');
+          let url = new URL('https://t.me/share/url');
               url.searchParams.append('text', text);
 
           return url;

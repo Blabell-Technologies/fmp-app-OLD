@@ -3,6 +3,7 @@ import alert from '/lib/dist/alerts.class.js';
 import { Select } from '/lib/select.class.js';
 import { PictureList } from '/lib/picturelist.class.js';
 import { Compleshon } from '/lib/compleshon.class.js';
+import { ContactForm } from '/lib/contactForm.class.js';
 
 
 
@@ -16,6 +17,7 @@ async function send_data() {
   const get_info = async () => {
     try {
       let json = await lib.getData('addpet');
+          json.owner_phone = contact_form.value.add.join(',');
       let data = await lib.parseJSON(json);
       return {json, data};
     } catch (error) {
@@ -200,9 +202,19 @@ class Selects {
 
 
 
+
+
+let contact_form;
 window.addEventListener('load', async () => {
   set_optionals();
   new Selects();
+  contact_form = new ContactForm('#contactinfo', {
+    keyword: 'contact',
+    inputs: {
+      limit: 3,
+      phone: { limit: 3 }
+    }
+  });
   new PictureList('#photo_list', { keyword: 'pet_photo_' });
   new Compleshon('#disappearance_place');
   new Compleshon('#owner_home');

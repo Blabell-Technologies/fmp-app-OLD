@@ -32,6 +32,9 @@ const lang = {
   "error_copying_clipboard": "Estis eraro dum kopiado al la tondujo",
   "select_pet_first": "Unue elektu la beston",
   "already_found": "Ĉi tiu dorlotbesto jam estas hejme!",
+  "already_found_list": "Hejme",
+  "cant_clear_cache": "Ne eblas forigi kaŝmemoron. Service worker neatingebla",
+  "race_not_available": "nespecifita raso",
 
   // Pagina principal
   "search_bar": "Serĉu perditajn dorlotbestojn",
@@ -55,6 +58,7 @@ const lang = {
   "owner_phone": "Telefono",
   "owner_email": "Retpoŝto",
   "owner_home": "Loĝloko",
+  "owner_socialmedia": "Socian reton",
   "secondary": "Malĉefaj informoj",
   "reward": "Rekompenco",
   "edit_post": "Redakti vian afiŝon",
@@ -85,6 +89,8 @@ const lang = {
   },
   "optional": "Laŭvolaj datumoj",
   "places_hint": "Strato kaj alteco",
+  "add_phone": "Aldonu telefonon",
+  "add_social": "Aldonu socian reton",
 
   "meta": {
     "description": "Disvastigu kaj eksciu pri ĉiuj nuntempe perditaj dorlotbestoj. Kun via helpu nin certigi, ke ĉiu el ili povu reveni al sia hejmo!"

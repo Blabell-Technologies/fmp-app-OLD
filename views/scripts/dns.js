@@ -56,21 +56,13 @@ button.addEventListener('click', async () => {
       title: lang.device_not_supported.modal1.title, 
       text: lang.device_not_supported.modal1.text,
       buttons: [
-				// More info
-        // Pliaj informoj
 				{text: 'Más información', type: 'primary', action: () => {
 					alert.modal.destroy();
 					alert.info({
-						// 
-            // 
 						title: lang.device_not_supported.modal2.title,
 						text: lang.device_not_supported.modal2.text,
 						buttons: [
-							// Know more
-              // Sciu pli
 							{text: 'Saber más', type: 'primary', action: () => {window.location.href = 'https://developer.mozilla.org/en-US/docs/Web/API/Navigator'} },
-							// Send
-              // Sendu
               {text: 'Enviar', type: 'primary', action: async () => device_info() }
 						]
 					});
@@ -112,8 +104,6 @@ async function device_info() {
 					title: lang.device_not_supported.modal5.title,
 					text: lang.device_not_supported.modal5.text,
 					buttons: [
-						// Retry
-            // Ripetu
 						{text: 'Reintentar', type: 'primary', action: async () => device_info() }
 					]
 				});
@@ -135,8 +125,10 @@ async function device_info() {
 }
 
 window.addEventListener('load', () => {
-	if (navigator.serviceWorker.controller) {
-		console.log('Sending');
-		navigator.serviceWorker.controller.postMessage({ clear_cache: true });
+	if (navigator.serviceWorker) {
+		if (navigator.serviceWorker.controller) {
+			console.log('Sending');
+			navigator.serviceWorker.controller.postMessage({ clear_cache: true });
+		}
 	}
 })

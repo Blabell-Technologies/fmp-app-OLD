@@ -90,14 +90,14 @@
       return res.json(result);
     } catch (err) { print.error(err); return res.status(err.status || 500).json(err); }
   });
-
   // Reportar nueva mascota
-  router.post('/pets/add', formidable({ multiples: true, maxFileSize: 10*1024*1024, keepExtensions: true }), async (req, res) => {
+  router.post('/pets/add', formidable({ multiples: true, maxFileSize: 30*1024*1024, keepExtensions: true, type: 'multipart' }), async (req, res) => {
     // Combinar los archivos y las entradas en una sola variable
     const body = {...req.files, ...req.fields};
 
     try {
       const result = await fmp.pets.add(body);
+      console.log(result);
       if ((result instanceof Error) == false) {
         const lang = await get_dictionary(req.cookies.lang);
         const config = {

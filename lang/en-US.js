@@ -32,6 +32,9 @@ const lang = {
   "error_copying_clipboard": "Couldn't copy to clipboard",
   "select_pet_first": "First select the animal",
   "already_found": "¡This pet is at home!",
+  "already_found_list": "At home",
+  "cant_clear_cache": "Couldn't wipe cache. Service worker is not available",
+  "race_not_available": "race not specified",
   
   // Pagina principal
   "search_bar": "Search lost pets",
@@ -55,6 +58,7 @@ const lang = {
   "owner_phone": "Phone",
   "owner_email": "Email",
   "owner_home": "Home",
+  "owner_socialmedia": "Social media",
   "secondary": "Secondary information",
   "reward": "Reward",
   "edit_post": "Edit your post",
@@ -85,6 +89,8 @@ const lang = {
   },
   "optional": "Optional data",
   "places_hint": "Street and number",
+  "add_phone": "Add phone",
+  "add_social": "Add social media",
 
   "meta": {
     "description": "Spread and find out about all currently lost pets. With your help we can make each of them get back to their home!"

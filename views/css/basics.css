@@ -28,6 +28,7 @@ label.search_button>button>span {color: white; font-size: 150%;}
 #error>div { margin-top: 20px; width: 100%; max-width: 60vw; display: flex; justify-content: space-around; }
 #error>div>button { height: 40px; width: calc(50% - 15px); border-radius: 15px; border: none; cursor: pointer; background-color: #efefef; }
 #error a {color: rgb(255, 196, 129); font-weight: 500;}
+#error>h2 { text-align: center; }
 
 
 #appupdate, #appinstall {display: flex; padding: 15px; flex-direction: row; justify-content: space-between;}
@@ -195,3 +196,25 @@ ul.autoComplete_list>li>span { color: rgba(0,0,0,.7); font-size: 11pt; }
 .select>.body>.options_search li.subcategory.hidden { display: block !important; }
 .select>.body>.options_search li.subcategory>div { display: none; }
 .select>.body>.options_search li.first>div { border: none !important; }
+
+
+
+
+
+
+/*--------------------------------------------------------------------------------------*/
+/*                      ESTILOS BASICOS DE FORMULARIO DE CONTACTO                       */
+/*--------------------------------------------------------------------------------------*/
+
+.contact-methods > div:last-of-type { display: flex; flex-direction: row; justify-content: space-around; padding: 15px 0; }
+.contact-methods > div:last-of-type > span { font-weight: 500; font-family: 'Rubik'; color: rgb(255, 196, 129); }
+.contact-methods > div:last-of-type > span.blocked { color: #424242; }
+
+.custom_input { margin-top: 20px; display: block; width: 100%; }
+.custom_input > div { margin-top: 7px; display: flex; flex-direction: row; height: 40px; border-radius: 15px; border: solid 1px #3d3d3d; overflow: hidden; align-items: center; }
+.custom_input > div > input { border-radius: 0; border: none; height: fit-content; min-height: fit-content; }
+.custom_input > div > div:first-of-type { position: relative; height: 100%; }
+.custom_input > div > div:first-of-type > select { position: absolute; height: 100%; width: 100%; opacity: 0; }
+.custom_input > div > div:first-of-type > div { width: 90px; height: 100%; background-color: #eee; padding: 10px; box-sizing: border-box; display: flex; flex-direction: row; align-items: center; }
+.custom_input > div > div:first-of-type > div > img { height: 100%; margin-right: 10px; }
+.custom_input > div > span { padding: 10px; }

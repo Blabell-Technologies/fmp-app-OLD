@@ -18,6 +18,7 @@ html#fmp(lang=lang.iso639)
         script(src="/scripts/app.js" defer)
         script(src="/scripts/integrity.js", type="module" async)
         script(src='https://unpkg.com/@tarekraafat/autocomplete.js@8.3.2/dist/js/autoComplete.min.js' defer)
+        script(src="https://unpkg.com/libphonenumber-js@1.9.19/bundle/libphonenumber-min.js" async)
         script(src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js" defer)
         script(src='/scripts/pet_add.js', type='module' defer)
         script(src='/scripts/lib.js', type='module' async)
@@ -53,7 +54,6 @@ html#fmp(lang=lang.iso639)
             #contactinfo
                 h3= lang.dictionary.contact
                 +input('addpet', 'owner_name', lang.dictionary.owner_name)
-                +input('addpet', 'owner_phone', lang.dictionary.owner_phone, 'tel')
                 +input('addpet', 'owner_email', lang.dictionary.owner_email)
                 +input('addpet', 'owner_home', lang.dictionary.owner_home, 'place', true)
             #secondaryinfo
